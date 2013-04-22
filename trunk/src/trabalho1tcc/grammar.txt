@@ -10,8 +10,8 @@ Expressões
 39. <Unary_Operator> ::=   "!"  |  "­"
 38. <Factor> ::= ( <Ident> | <Number> | "(" <Expression> ")" )
 37. <Unary> ::= <Unary_Operator> <Unary> | <Factor>
-36. <Term> ::= <Factor> {("*" | "/" | "%") <Factor>}
-35. <SimpleExpr> ::= ["+"] <Term> {("+") <Term>}                                //colocar o <Unary> ?
+36. <Term> ::= <Unary> {("*" | "/" | "%") <Unary>}
+35. <SimpleExpr> ::= ["+"] <Term> {("+"|"-") <Term>}                                //colocar o <Unary> ?
 34. <InequationExpr> ::= <SimpleExpr> [("<" | "<=" | ">" | ">=") <SimpleExpr>]
 33. <EqualityExpr> ::= <InequationExpr> [( "=="  |  "!=" ) <InequationExpr>]
 32. <AndExpr> :: = <EqualityExp> {"&&" <EqualityExpr>}
@@ -19,8 +19,8 @@ Expressões
 30. <Expression> ::= <OrExpr>
 29. <ConstantFactor> ::= ( <Number> | "(" <ConstantExpression> ")" )
 28. <ConstantUnary> ::= <Unary_Operator> <ConstantUnary> | <ConstantFactor>
-27. <ConstantTerm> ::= <ConstantFactor> {("*" | "/" | "%") <ConstantFactor>}
-26. <ConstantSimpleExpr> ::= ["+"] <ConstantTerm> {("+")                        //colocar o <Unary> ?
+27. <ConstantTerm> ::= <ConstantUnary> {("*" | "/" | "%") <ConstantUnary>}
+26. <ConstantSimpleExpr> ::= ["+"] <ConstantTerm> {("+"|"-")                        //colocar o <Unary> ?
  <ConstantTerm>}
 25. <ConstantInequationExpr> ::= <ConstantSimpleExpr> [("<" | "<=" | ">" | ">=")
  <ConstantSimpleExpr>]
