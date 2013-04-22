@@ -25,24 +25,24 @@ options {
   FORCE_LA_CHECK = false;
 }
 
-SKIP  : {" " | "\t"}
-TOKEN : {<EOL : "\n" | "\r" | "\r\n">}
-TOKEN : {<PLUS : "+">}
-TOKEN : {<MINUS : "-">}
-TOKEN : {<TIMES : "*">}
-TOKEN : {<#LETTER : [”a”-”z”,”A”-”Z”,"_"]>}
-TOKEN : {<OPAR : "(">}
-TOKEN : {<CPAR : ")">}
-TOKEN : {<OBRA : "{">}
-TOKEN : {<CBRA : "}">}
-TOKEN : {<IF : "if">}
-TOKEN : {<ELSE : "else">}
-TOKEN : {<SWITCH : "switch">}
-TOKEN : {<CASE: "case">}
-TOKEN : {<DEFAULT: "default">}
-TOKEN : {<BREAK: "break">}
-TOKEN : {<INT: "int">}
-TOKEN : {<VOID: "void">}
+SKIP  : {" " | "\t" }
+TOKEN : { < EOL : "\n" | "\r" | "\r\n" > }
+TOKEN : { < PLUS : "+" > }
+TOKEN : { < MINUS : "-" > }
+TOKEN : { < TIMES : "*" > }
+TOKEN : { < #LETTER : [”a”-”z”,”A”-”Z”,"_"] > }
+TOKEN : { < OPAR : "(" > }
+TOKEN : { < CPAR : ")" > }
+TOKEN : { < OBRA : "{" > }
+TOKEN : { < CBRA : "}" > }
+TOKEN : { < IF : "if" > }
+TOKEN : { < ELSE : "else" > }
+TOKEN : { < SWITCH : "switch" > }
+TOKEN : { < CASE: "case" > }
+TOKEN : { < DEFAULT: "default" > }
+TOKEN : { < BREAK: "break" > }
+TOKEN : { < INT: "int" > }
+TOKEN : { < VOID: "void" > }
 TOKEN : { < DIV: "/" > }
 TOKEN : { < PERCENT : "%" > }
 TOKEN : { < EQU : "==" > }
@@ -78,7 +78,38 @@ public class Switch {
                         System.exit(-1);
                     }
         }
-    } 
+    }
+
+    void Program() :
+        {
+        }
+        {   
+            (VariableDeclaration())* ProcedureDeclaration() 
+            (ProcedureDeclaration())*
+        }
+
+    int ProcedureDeclaration() :
+        {
+            int value;
+        }
+        {
+            value = <VOID> ProcedureHeading() <OBRA> ProcedureBody() <CBRA>
+            { return value; }
+        }
+
+    int ProcedureBody() :
+        {
+
+        }
+        {
+            value = (VariableDeclaration())* StatementSequence()
+            { return value; }
+        }
+
+    int VariableDeclaration() :
+        {}
+        {}
+
 }
 
 PARSER_END(Switch)
