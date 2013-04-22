@@ -106,17 +106,37 @@ public class Switch {
 
     void ProcedureBody() :
     {
-
+            int value;
     }
     {
         (VariableDeclaration())* StatementSequence()
     }
 
+    void ProcedureHeading() :
+    {
+    }
+    {
+        Ident <OPAR> (Parameter)? <CPAR>
+    }
+
+    void ParametersList() :
+    {
+    }
+    {
+        Parameter (<COMMA> Parameter)*
+    }
+
+    void Parameter() :
+    {
+    }
+    {
+        <INT> Ident
+    }
+
     void VariableDeclaration() :
-    {}
-    {}
-    
-    
+        {}
+        {}
+
 }
 
 PARSER_END(Switch)
