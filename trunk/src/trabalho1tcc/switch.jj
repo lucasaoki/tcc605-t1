@@ -27,39 +27,48 @@ options {
 
 SKIP  : {" " | "\t" }
 TOKEN : { < EOL : "\n" | "\r" | "\r\n" > }
+TOKEN : { < #LETTER : [”a”-”z”,”A”-”Z”,"_"] > }
+TOKEN : { < #DIGIT : (["0"-"9"])+ > }
+TOKEN : { < NUMBER : <DIGIT> > }
+
 TOKEN : { < PLUS : "+" > }
 TOKEN : { < MINUS : "-" > }
 TOKEN : { < TIMES : "*" > }
-TOKEN : { < #LETTER : [”a”-”z”,”A”-”Z”,"_"] > }
+TOKEN : { < DIV: "/" > }
+TOKEN : { < PERCENT : "%" > }
+
 TOKEN : { < OPAR : "(" > }
 TOKEN : { < CPAR : ")" > }
 TOKEN : { < OBRA : "{" > }
 TOKEN : { < CBRA : "}" > }
+
 TOKEN : { < IF : "if" > }
 TOKEN : { < ELSE : "else" > }
+
 TOKEN : { < SWITCH : "switch" > }
 TOKEN : { < CASE: "case" > }
+TOKEN : { < COLON : ":" > }
 TOKEN : { < DEFAULT: "default" > }
 TOKEN : { < BREAK: "break" > }
+
 TOKEN : { < INT: "int" > }
 TOKEN : { < VOID: "void" > }
-TOKEN : { < DIV: "/" > }
-TOKEN : { < PERCENT : "%" > }
+
 TOKEN : { < EQU : "==" > }
 TOKEN : { < LEQU : "<=" > }
 TOKEN : { < GEQU : ">=" > }
 TOKEN : { < LESS : "<" > }
 TOKEN : { < GREAT : ">" > }
 TOKEN : { < NEQU : "!=" > }
-TOKEN : { < ASSIGN : "=" > }
-TOKEN : { < COMMA : "," > }
-TOKEN : { < COLON : ":" > }
-TOKEN : { < SEMICOL : ";" > }
+
 TOKEN : { < NOT : "!" > }
 TOKEN : { < AND : "&&" > }
 TOKEN : { < OR : "||" > }
-TOKEN : { < NUMBER : <DIGIT> > }
-TOKEN : { < #DIGIT : (["0"-"9"])+ > }
+
+TOKEN : { < ASSIGN : "=" > }
+TOKEN : { < COMMA : "," > }
+TOKEN : { < SEMICOL : ";" > }
+
 
 PARSER_BEGIN(Switch)
 import java.io.PrintStream ;
@@ -81,30 +90,27 @@ public class Switch {
     }
 
     void Program() :
-        {
-        }
-        {   
-            (VariableDeclaration())* ProcedureDeclaration() 
-            (ProcedureDeclaration())*
-        }
+    {
+    }
+    {   
+        ( VariableDeclaration() )* ProcedureDeclaration() 
+        ( ProcedureDeclaration() )*
+    }
 
     int ProcedureDeclaration() :
-        {
-            int value;
-        }
-        {
-            value = <VOID> ProcedureHeading() <OBRA> ProcedureBody() <CBRA>
-            { return value; }
-        }
+    {
+    }
+    {
+        <VOID> ProcedureHeading() <OBRA> ProcedureBody() <CBRA>
+    }
 
     int ProcedureBody() :
-        {
+    {
 
-        }
-        {
-            value = (VariableDeclaration())* StatementSequence()
-            { return value; }
-        }
+    }
+    {
+        (VariableDeclaration())* StatementSequence()
+    }
 
     int VariableDeclaration() :
         {}
