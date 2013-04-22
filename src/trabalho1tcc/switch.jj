@@ -97,14 +97,14 @@ public class Switch {
         ( ProcedureDeclaration() )*
     }
 
-    int ProcedureDeclaration() :
+    void ProcedureDeclaration() :
     {
     }
     {
         <VOID> ProcedureHeading() <OBRA> ProcedureBody() <CBRA>
     }
 
-    int ProcedureBody() :
+    void ProcedureBody() :
     {
 
     }
@@ -112,10 +112,11 @@ public class Switch {
         (VariableDeclaration())* StatementSequence()
     }
 
-    int VariableDeclaration() :
-        {}
-        {}
-
+    void VariableDeclaration() :
+    {}
+    {}
+    
+    
 }
 
 PARSER_END(Switch)
