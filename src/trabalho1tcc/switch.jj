@@ -1,9 +1,9 @@
-/*
-    Gilberto Volpe Neto
-    Gustavo Luvizotto Cesar
-    Lucas Aoki Heredia
+/*  Projeto 1 - Teoria da Computação e Compiladores.
+ *
+ *  Gilberto Volpe Neto        6783993
+ *  Gustavo Luvizotto Cesar    6783544
+ *  Lucas Aoki Heredia         7174032
  */
-
 
 options {
   LOOKAHEAD = 1;
@@ -25,31 +25,24 @@ options {
   FORCE_LA_CHECK = false;
 }
 
-PARSER_BEGIN(Simple1)
-
-public class Simple1 {
-
-  public static void main(String args[]) throws ParseException {
-    Simple1 parser = new Simple1(System.in);
-    parser.Input();
-  }
-
-}
-
-PARSER_END(Simple1)
-
-void Input() :
-{}
-{
-  MatchedBraces() ("\n"|"\r")* <EOF>
-}
-
-void MatchedBraces() :
-{}
-{
-  "{" [ MatchedBraces() ] "}"
-}
-
+SKIP  : {" " | "\t"}
+TOKEN : {<EOL : "\n" | "\r" | "\r\n">}
+TOKEN : {<PLUS : "+">}
+TOKEN : {<MINUS : "-">}
+TOKEN : {<TIMES : "*">}
+TOKEN : {<#LETTER : [”a”-”z”,”A”-”Z”,"_"]>}
+TOKEN : {<OPAR : "(">}
+TOKEN : {<CPAR : ")">}
+TOKEN : {<OBRA : "{">}
+TOKEN : {<CBRA : "}">}
+TOKEN : {<IF : "if">}
+TOKEN : {<ELSE : "else">}
+TOKEN : {<SWITCH : "switch">}
+TOKEN : {<CASE: "case">}
+TOKEN : {<DEFAULT: "default">}
+TOKEN : {<BREAK: "break">}
+TOKEN : {<INT: "int">}
+TOKEN : {<VOID: "void">}
 TOKEN : { < DIV: "/" > }
 TOKEN : { < PERCENT : "%" > }
 TOKEN : { < EQU : "==" > }
@@ -67,3 +60,25 @@ TOKEN : { < AND : "&&" > }
 TOKEN : { < OR : "||" > }
 TOKEN : { < NUMBER : <DIGIT> > }
 TOKEN : { < #DIGIT : (["0"-"9"])+ > }
+
+PARSER_BEGIN(Switch)
+import java.io.PrintStream ;
+public class Switch {
+
+    public static void main(String args[]) {
+        Switch parser = new Switch(System.in);
+        while (true) {
+            try {
+                parser.Program(System.out);
+            }   catch (ParseException e) {
+                    System.out.println(e.getMessage());
+                    System.exit(-1);
+                }   catch (TokenMsgError e) {
+                        System.out.println(e.getMessage());
+                        System.exit(-1);
+                    }
+        }
+    } 
+}
+
+PARSER_END(Switch)
