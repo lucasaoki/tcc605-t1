@@ -1,20 +1,32 @@
 Expressões
-43. Digit ::= ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9")
-42. <Number> ::=   Digit { Digit }
-41. Letter ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" |
- "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" |
- "Y" | "Z"| "_"
-40. <Ident> ::= Letter { Letter | Digit }
+43. <Digit> ::= ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9")
+42. <Number> ::=   <Digit> { <Digit> }
+41. <Letter> ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | 
+ "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | 
+ "X" | "Y" | "Z"| "_"
+40. <Ident> ::= <Letter> { <Letter> | <Digit> }
 39. <Unary_Operator> ::=   "!"  |  "­"
 38. <Factor> ::= ( <Ident> | <Number> | "(" <Expression> ")" )
 37. <Unary> ::= <Unary_Operator> <Unary> | <Factor>
 36. <Term> ::= <Factor> {("*" | "/" | "%") <Factor>}
-35. <SimpleExpr> ::= ["+" | "­"] <Term> {("+" | "­") <Term>}
+35. <SimpleExpr> ::= ["+"] <Term> {("+") <Term>}                                //colocar o <Unary> ?
 34. <InequationExpr> ::= <SimpleExpr> [("<" | "<=" | ">" | ">=") <SimpleExpr>]
 33. <EqualityExpr> ::= <InequationExpr> [( "=="  |  "!=" ) <InequationExpr>]
 32. <AndExpr> :: = <EqualityExp> {"&&" <EqualityExpr>}
 31. <OrExpr> ::= <AndExpr> {"||" <AndExpr>}
 30. <Expression> ::= <OrExpr>
+29. <ConstantFactor> ::= ( <Number> | "(" <ConstantExpression> ")" )
+28. <ConstantUnary> ::= <Unary_Operator> <ConstantUnary> | <ConstantFactor>
+27. <ConstantTerm> ::= <ConstantFactor> {("*" | "/" | "%") <ConstantFactor>}
+26. <ConstantSimpleExpr> ::= ["+"] <ConstantTerm> {("+")                        //colocar o <Unary> ?
+ <ConstantTerm>}
+25. <ConstantInequationExpr> ::= <ConstantSimpleExpr> [("<" | "<=" | ">" | ">=")
+ <ConstantSimpleExpr>]
+24. <ConstantEqualityExpr> ::= <InequationExpr> [( "=="  |  "!=" ) 
+ <InequationExpr>]
+23. <ConstantAndExpr> :: = <ConstantEqualityExp> {  "&&" <ConstantEqualityExpr>}
+22. <ConstantOrExpr> ::= <ConstantAndExpr> { "||" <ConstantAndExpr>}
+21. <ConstantExpression> ::= <ConstantOrExpr>
 
 Comandos
 20. <Assignment> ::= "=" <Expression>
@@ -35,10 +47,10 @@ Comandos
 10. <StatementSequence> ::= { <Statement> }
 
 Declarações
-9. Type ::= "int"
+9. <Type> ::= "int"
 8. <IdentList> ::= ( <Ident> [ <Assignment> ] ) {"," <IdentList> }
-7. <VariableDeclaration> ::= Type <IdentList> ";"
-6. <Parameter> ::= Type <Ident>
+7. <VariableDeclaration> ::= <Type> <IdentList> ";"
+6. <Parameter> ::= <Type> <Ident>
 5. <ParametersList> ::= <Parameter> {"," <Parameter>}
 4. <ProcedureHeading> ::= <Ident> "(" [<Parameters>] ")"
 3. <ProcedureBody> ::= {<VariableDeclaration>} <StatementSequence>
