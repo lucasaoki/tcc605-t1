@@ -56,7 +56,8 @@ public class Switch {
         Switch parser = new Switch(System.in);
         while (true) {
             try {
-                parser.Parte2Trabalho1();
+                //parser.Parte2Trabalho1();
+                parser.Program();    
                 System.exit(0);
             }   catch (ParseException e) {
                     System.out.println(e.getMessage());
@@ -75,7 +76,42 @@ public class Switch {
 
 PARSER_END(Switch)
 
-SKIP : {" " | "\t" }
+/* COMMENTS */
+MORE :
+{
+  "//" : IN_SINGLE_LINE_COMMENT
+|
+  <"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
+|
+  "/*" : IN_MULTI_LINE_COMMENT
+}
+
+<IN_SINGLE_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n" > : DEFAULT
+}
+
+<IN_FORMAL_COMMENT>
+SPECIAL_TOKEN :
+{
+  <FORMAL_COMMENT: "*/" > : DEFAULT
+}
+
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <MULTI_LINE_COMMENT: "*/" > : DEFAULT
+}
+
+<IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
+MORE :
+{
+  < ~[] >
+}
+
+
+SKIP : { < WHITE : " " | "\t" >}
 SKIP : { < EOL : "\n" | "\r" | "\r\n" > }
 
 TOKEN : { < WHILE : "while" > }
@@ -138,70 +174,74 @@ TOKEN : { < SEMICOL : ";" > }
     }
     {
         (
-            ( SemiCol() ) 
-            | 
-            ( Comma() )
-            | 
-            ( Assign() ) 
-            | 
-            ( Or() )
-            |
-            ( And() )
-            |
-            ( Not() )
-            |
-            ( Equ() )
-            |
-            ( Lequ() )
-            |
-            ( Gequ() )
-            |
-            ( Less() )
-            |
-            ( Great() )
-            |
-            ( Nequ() )
-            |
-            ( Plus() )
-            |
-            ( Minus() )
-            |
-            ( Times() )
-            |
-            ( Div() )
-            |
-            ( Percent() )
-            |
-            ( Opar() )
-            |
-            ( Cpar() )
-            |
-            ( Obra() )
-            |
-            ( Cbra() )
-            |
-            ( If() )
-            |
-            ( Else() )
-            |
-            ( While() )
-            |
-            ( Case() )
-            |
-            ( Colon() )
-            |
-            ( Deflt() )
-            |
-            ( Break() )
-            |
-            ( Type() )
-            |
-            ( Void() )
-            |
-            ( Ident() )
-            |
-            ( Number() )
-        )*
+            (
+                Ident() 
+                |
+                Number() 
+                |    
+                SemiCol() 
+                | 
+                Comma() 
+                | 
+                Assign()  
+                | 
+                Or() 
+                |
+                And() 
+                |
+                Not() 
+                |
+                Equ() 
+                |
+                Lequ() 
+                |
+                Gequ() 
+                |
+                Less() 
+                |
+                Great() 
+                |
+                Nequ() 
+                |
+                Plus() 
+                |
+                Minus() 
+                |
+                Times() 
+                |
+                Div() 
+                |
+                Percent() 
+                |
+                Opar() 
+                |
+                Cpar() 
+                |
+                Obra() 
+                |
+                Cbra() 
+                |
+                If() 
+                |
+                Else() 
+                |
+                While() 
+                |
+                Switch() 
+                |
+                Case() 
+                |
+                Colon() 
+                |
+                Deflt() 
+                |
+                Break() 
+                |
+                Type() 
+                |
+                Void() 
+            ) 
+         )*
     }
 
     //Inicio Tokens - Análises
@@ -568,6 +608,29 @@ TOKEN : { < SEMICOL : ";" > }
             } 
         }
     }
+    
+    
+    void Assign() :
+    {
+        Token t_assign;
+    }
+    {
+        t_assign = <ASSIGN>
+        {
+            SaveLexicalInformation(t_assign,"ASSIGN");
+        }    
+    }
+    
+    void Comma() :
+    {
+        Token t_comma;
+    }
+    {
+        t_comma = <COMMA>
+        {
+            SaveLexicalInformation(t_comma,"COMMA");
+        }    
+    }
 
     //Fim Tokens - Análises
 
@@ -587,8 +650,7 @@ TOKEN : { < SEMICOL : ";" > }
     {
     }
     {
-        Void() ProcedureHeading() Obra() ProcedureBody() Cbra()
-        
+        Void() ProcedureHeading() Obra() ProcedureBody() Cbra()   
     }
 
     
@@ -597,8 +659,7 @@ TOKEN : { < SEMICOL : ";" > }
     {
     }
     {
-        (VariableDeclaration())* StatementSequence()
-        
+        StatementSequence()
     }
 
     void ProcedureHeading() :
@@ -612,7 +673,7 @@ TOKEN : { < SEMICOL : ";" > }
     {
     }
     {
-        Parameter() ( Comma() Parameter())*
+        Parameter() ( Comma() Parameter() )*
     }
 
     void Parameter() :
@@ -632,7 +693,6 @@ TOKEN : { < SEMICOL : ";" > }
     
     void IdentList() : 
     {
-        
     }
     {
         Ident() ( Assignment() )? ( Comma() IdentList() )?
@@ -640,28 +700,46 @@ TOKEN : { < SEMICOL : ";" > }
 
     void StatementSequence() : 
     {
-        
-        
     }
     {
-        ( Statement() )*
-        
+        (
+            VariableDeclaration()
+        )*
+        (
+            Statement()
+        )*    
     }
     
     void LoopStatementSequence() : 
     {
     }
     {
-        ( Statement() | Break() )
-        
+        ( 
+            StatementSequence() 
+        )
+        ( 
+            Break()
+        )?
     }
 
     void Statement() :
     {
     }
     {
-        ( ( Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
-        SelectionStatement() ) SemiCol() (SemiCol())* )   
+        ( 
+            ( 
+                Ident() 
+                ( 
+                    Assignment() 
+                    | 
+                    ProcedureCall() 
+                ) (SemiCol())+ 
+            ) 
+            | 
+            WhileStatement()
+            | 
+            SelectionStatement() 
+        )
     }
 
     void WhileStatement() :
@@ -689,7 +767,7 @@ TOKEN : { < SEMICOL : ";" > }
         )
         (
             Case() ConstantExpression() Colon() LoopStatementSequence()
-        )+
+        )*
         (
             Deflt() Colon() LoopStatementSequence()
         )? Cbra()   
@@ -699,14 +777,12 @@ TOKEN : { < SEMICOL : ";" > }
     {
     }
     {
-        If() Opar() Expression() Cpar() Obra() LoopStatementSequence() Cbra()
+        If() Opar() Expression() Cpar() Obra() LoopStatementSequence()  Cbra()
         (
-            Else() Obra() LoopStatementSequence() 
-            (
-                Break()
-            )? Cbra() 
+            Else() Obra() 
+                LoopStatementSequence() 
+            Cbra() 
         )?
-        
     }
     
     void ProcedureCall() :
@@ -734,42 +810,15 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
 
-    void Comma() :
-    {
-        Token t_comma;
-    }
-    {
-        t_comma = <COMMA>
-        {
-            SaveLexicalInformation(t_comma,"COMMA");
-        }    
-    }
-    
-
-
     void Assignment() :
     {   
     }
     {
-        Assign() Expression()
-        
+        Assign() Expression()        
     }
-
-    void Assign() :
-    {
-        Token t_assign;
-    }
-    {
-        t_assign = <ASSIGN>
-        {
-            SaveLexicalInformation(t_assign,"ASSIGN");
-        }    
-    }
-        
+   
     void ConstantExpression() :
-    {
-        
-        
+    {   
     }
     {
         ConstantOrExpr()
@@ -799,8 +848,6 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantEqualityExpr() :
     {
-        
-        
     }
     {
         ConstantInequationExpr() 
@@ -816,9 +863,7 @@ TOKEN : { < SEMICOL : ";" > }
     }
 
     void ConstantInequationExpr() :
-    {
-        
-        
+    {   
     }
     {
         ConstantSimpleExpr() 
@@ -888,8 +933,6 @@ TOKEN : { < SEMICOL : ";" > }
     
     void ConstantFactor() : 
     {
-        
-        
     }
     {
         Number() 
@@ -900,28 +943,23 @@ TOKEN : { < SEMICOL : ";" > }
 
     void Expression() :
     {
-        
-        
     }
     {
         OrExpr()	
-        
     }
 
     void OrExpr() :
-    {
-        
-        
+    { 
     }
     {
-        AndExpr() ( <OR> AndExpr() )*
-        
+        AndExpr() 
+        ( 
+            Or() AndExpr() 
+        )*
     }
         
     void EqualityExpr() :
-    {
-        
-        
+    { 
     }
     {
         InequationExpr() 
@@ -931,14 +969,12 @@ TOKEN : { < SEMICOL : ";" > }
                 | 
                 Nequ()
              ) 
-        InequationExpr() 
+             InequationExpr() 
         )?       
     }
 
     void AndExpr() :
-    {
-        
-        
+    {   
     }
     {
         EqualityExpr() ( And() EqualityExpr() )*
@@ -952,13 +988,13 @@ TOKEN : { < SEMICOL : ";" > }
        SimpleExpr() 
        ( 
             ( 
-                <LESS> 
+                Less() 
                 | 
-                <LEQU>
+                Lequ()
                 | 
-                <GREAT>
+                Great()
                 | 
-                <GEQU>
+                Gequ()
              ) 
              SimpleExpr()
         )?
@@ -970,7 +1006,7 @@ TOKEN : { < SEMICOL : ";" > }
     }
     {
        ( 
-         <PLUS>
+         Plus()
        )? 
        Term() 
        ( 
@@ -1031,8 +1067,4 @@ TOKEN : { < SEMICOL : ";" > }
         Not()
         |
         Minus()
-    }
-    
-    
-
-    
+    }    

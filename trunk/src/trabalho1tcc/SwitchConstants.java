@@ -9,86 +9,106 @@ public interface SwitchConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int EOL = 3;
+  int SINGLE_LINE_COMMENT = 4;
   /** RegularExpression Id. */
-  int WHILE = 4;
+  int FORMAL_COMMENT = 5;
   /** RegularExpression Id. */
-  int IF = 5;
+  int MULTI_LINE_COMMENT = 6;
   /** RegularExpression Id. */
-  int ELSE = 6;
+  int WHITE = 8;
   /** RegularExpression Id. */
-  int SWITCH = 7;
+  int EOL = 9;
   /** RegularExpression Id. */
-  int CASE = 8;
+  int WHILE = 10;
   /** RegularExpression Id. */
-  int COLON = 9;
+  int IF = 11;
   /** RegularExpression Id. */
-  int DEFLT = 10;
+  int ELSE = 12;
   /** RegularExpression Id. */
-  int BREAK = 11;
+  int SWITCH = 13;
   /** RegularExpression Id. */
-  int INT = 12;
+  int CASE = 14;
   /** RegularExpression Id. */
-  int VOID = 13;
+  int COLON = 15;
   /** RegularExpression Id. */
-  int LETTER = 14;
+  int DEFLT = 16;
   /** RegularExpression Id. */
-  int IDENT = 15;
+  int BREAK = 17;
   /** RegularExpression Id. */
-  int DIGIT = 16;
+  int INT = 18;
   /** RegularExpression Id. */
-  int NUMBER = 17;
+  int VOID = 19;
   /** RegularExpression Id. */
-  int PLUS = 18;
+  int LETTER = 20;
   /** RegularExpression Id. */
-  int MINUS = 19;
+  int IDENT = 21;
   /** RegularExpression Id. */
-  int TIMES = 20;
+  int DIGIT = 22;
   /** RegularExpression Id. */
-  int DIV = 21;
+  int NUMBER = 23;
   /** RegularExpression Id. */
-  int PERCENT = 22;
+  int PLUS = 24;
   /** RegularExpression Id. */
-  int OPAR = 23;
+  int MINUS = 25;
   /** RegularExpression Id. */
-  int CPAR = 24;
+  int TIMES = 26;
   /** RegularExpression Id. */
-  int OBRA = 25;
+  int DIV = 27;
   /** RegularExpression Id. */
-  int CBRA = 26;
+  int PERCENT = 28;
   /** RegularExpression Id. */
-  int EQU = 27;
+  int OPAR = 29;
   /** RegularExpression Id. */
-  int LEQU = 28;
+  int CPAR = 30;
   /** RegularExpression Id. */
-  int GEQU = 29;
+  int OBRA = 31;
   /** RegularExpression Id. */
-  int LESS = 30;
+  int CBRA = 32;
   /** RegularExpression Id. */
-  int GREAT = 31;
+  int EQU = 33;
   /** RegularExpression Id. */
-  int NEQU = 32;
+  int LEQU = 34;
   /** RegularExpression Id. */
-  int NOT = 33;
+  int GEQU = 35;
   /** RegularExpression Id. */
-  int AND = 34;
+  int LESS = 36;
   /** RegularExpression Id. */
-  int OR = 35;
+  int GREAT = 37;
   /** RegularExpression Id. */
-  int ASSIGN = 36;
+  int NEQU = 38;
   /** RegularExpression Id. */
-  int COMMA = 37;
+  int NOT = 39;
   /** RegularExpression Id. */
-  int SEMICOL = 38;
+  int AND = 40;
+  /** RegularExpression Id. */
+  int OR = 41;
+  /** RegularExpression Id. */
+  int ASSIGN = 42;
+  /** RegularExpression Id. */
+  int COMMA = 43;
+  /** RegularExpression Id. */
+  int SEMICOL = 44;
 
   /** Lexical state. */
   int DEFAULT = 0;
+  /** Lexical state. */
+  int IN_SINGLE_LINE_COMMENT = 1;
+  /** Lexical state. */
+  int IN_FORMAL_COMMENT = 2;
+  /** Lexical state. */
+  int IN_MULTI_LINE_COMMENT = 3;
 
   /** Literal token values. */
   String[] tokenImage = {
     "<EOF>",
-    "\" \"",
-    "\"\\t\"",
+    "\"//\"",
+    "<token of kind 2>",
+    "\"/*\"",
+    "<SINGLE_LINE_COMMENT>",
+    "\"*/\"",
+    "\"*/\"",
+    "<token of kind 7>",
+    "<WHITE>",
     "<EOL>",
     "\"while\"",
     "\"if\"",
