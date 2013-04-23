@@ -7,7 +7,7 @@
 
 options {
   LOOKAHEAD = 1;
-  CHOICE_AMBIGUITY_CHECK = 2;
+  CHOICE_AMBIGUITY_CHECK = 1;
   OTHER_AMBIGUITY_CHECK = 1;
   STATIC = true;
   DEBUG_PARSER = false;
@@ -26,14 +26,16 @@ options {
 }
 
 PARSER_BEGIN(Switch)
+
 import java.io.PrintStream ;
+
 public class Switch {
 
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
         while (true) {
             try {
-                parser.Program(System.out);
+                parser.Program();
             }   catch (ParseException e) {
                     System.out.println(e.getMessage());
                     System.exit(-1);
@@ -96,9 +98,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {   
-        ( VariableDeclaration() )* ProcedureDeclaration() 
-        ( ProcedureDeclaration() )*
-        <EOF>
+        string = Number()
+        {
+            System.out.println(string);
+        }
+
     }
 
     String ProcedureDeclaration() :
@@ -120,7 +124,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = (VariableDeclaration())* StatementSequence()
+        (VariableDeclaration())* StatementSequence()
         {
             string = t.image;
             return string;
@@ -185,7 +189,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = Ident() ( Assignment() )? ( <COMMA> IdentList() )*
+        t = Ident() ( Assignment() )? ( <COMMA> IdentList() )?
         {
             string = t.image;
             return string;
@@ -198,7 +202,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = ( Statement() )*
+        ( Statement() )*
         {
             string = t.image;
             return string;
@@ -211,7 +215,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = ( Statement() | Break() )*
+        ( Statement() | Break() )
         {
             string = t.image;
             return string;
@@ -224,8 +228,8 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = ( (Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
-        SelectionStatement() ) <SEMICOL> (<SEMICOL>)* )?
+        ( (Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
+        SelectionStatement() ) <SEMICOL> (<SEMICOL>)*) 
         {
             string = t.image;
             return string;
@@ -264,8 +268,8 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <SWITCH> <OPAR> Expression() <CPAR> <OBRA> (LoopStatementSequence())*
-        (<CASE> ConstantExpression() <COLON> LoopStatementSequence())* 
+        t = <SWITCH> <OPAR> Expression() <CPAR> <OBRA> (LoopStatementSequence())
+        (<CASE> ConstantExpression() <COLON> LoopStatementSequence())+
         (<DEFLT> <COLON> LoopStatementSequence())? <CBRA>
         {
             string = t.image;
@@ -410,7 +414,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = (<PLUS>)? ConstantTerm() ( (<PLUS> | <MINUS>) ConstantTerm() )*
+        (<PLUS>)? ConstantTerm() ( (<PLUS> | <MINUS>) ConstantTerm() )*
         {
             string = t.image;
             return string;
@@ -529,7 +533,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token  t_simpleExp;
     }
     {
-            t_simpleExp = ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
+            ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
             {
                 simpleExp_ = t_simpleExp.image;
                 return simpleExp_;
