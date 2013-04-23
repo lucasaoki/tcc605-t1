@@ -27,15 +27,37 @@ options {
 
 PARSER_BEGIN(Switch)
 
-import java.io.PrintStream ;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Switch {
-    
+   
+    public static void SaveLexicalInformation(Token t,String Vn){
+        
+        String string = ( "@(" + t.beginLine + "," + t.beginColumn + ")\t"
+                 + Vn + "\t-\t" + t.image );
+
+        System.out.println(string);
+        
+        boolean add = allInformation.add(string);            
+    }
+
+    public static void ShowAllInformation(){
+        Iterator it = allInformation.iterator();
+
+        while( it.hasNext() ){
+            System.out.println(it.next());
+        }
+    }
+
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
         while (true) {
             try {
-                parser.Program();
+                parser.Parte2Trabalho1();
+                System.exit(0);
             }   catch (ParseException e) {
                     System.out.println(e.getMessage());
                     System.exit(-1);
@@ -45,8 +67,16 @@ public class Switch {
                     }
         }
     }
+
+    public static ArrayList<String>  allInformation = new ArrayList<String>();
+    public static Set<String>  procedureInformation = new TreeSet<String>();
+    public static Set<String>  variableDeclarationInformation = new TreeSet<String>();
 }
+
 PARSER_END(Switch)
+
+SKIP : {" " | "\t" }
+SKIP : { < EOL : "\n" | "\r" | "\r\n" > }
 
 TOKEN : { < WHILE : "while" > }
 TOKEN : { < IF : "if" > }
@@ -61,8 +91,6 @@ TOKEN : { < BREAK: "break" > }
 TOKEN : { < INT: "int" > }
 TOKEN : { < VOID: "void" > }
 
-SKIP  : {" " | "\t" }
-SKIP : { < EOL : "\n" | "\r" | "\r\n" > }
 TOKEN : { < #LETTER : ["a"-"z","A"-"Z","_"] > }
 TOKEN : { <IDENT : <LETTER> ( <LETTER> | <DIGIT>)* >}
 TOKEN : { < #DIGIT : ["0"-"9"] > }
@@ -94,15 +122,464 @@ TOKEN : { < ASSIGN : "=" > }
 TOKEN : { < COMMA : "," > }
 TOKEN : { < SEMICOL : ";" > }
 
-    void Program() :
+    void Parte2Trabalho1() :
     {
-       // String string;
-        
+    }
+    {
+        TokenAnalyser()
+        <EOF>
+        {
+            return ;
+        }
+    }
+
+    void TokenAnalyser() : 
+    {
+    }
+    {
+        (
+            ( SemiCol() ) 
+            | 
+            ( Comma() )
+            | 
+            ( Assign() ) 
+            | 
+            ( Or() )
+            |
+            ( And() )
+            |
+            ( Not() )
+            |
+            ( Equ() )
+            |
+            ( Lequ() )
+            |
+            ( Gequ() )
+            |
+            ( Less() )
+            |
+            ( Great() )
+            |
+            ( Nequ() )
+            |
+            ( Plus() )
+            |
+            ( Minus() )
+            |
+            ( Times() )
+            |
+            ( Div() )
+            |
+            ( Percent() )
+            |
+            ( Opar() )
+            |
+            ( Cpar() )
+            |
+            ( Obra() )
+            |
+            ( Cbra() )
+            |
+            ( If() )
+            |
+            ( Else() )
+            |
+            ( While() )
+            |
+            ( Case() )
+            |
+            ( Colon() )
+            |
+            ( Deflt() )
+            |
+            ( Break() )
+            |
+            ( Type() )
+            |
+            ( Void() )
+            |
+            ( Ident() )
+            |
+            ( Number() )
+        )*
+    }
+
+    //Inicio Tokens - Análises
+    
+    void Void():
+    {
+        Token t_void;
+    }
+    {
+        t_void = <VOID>
+        {
+            SaveLexicalInformation(t_void,"VOID");
+        }
+    }
+
+    void Type():
+    {
+        Token t_type;
+    }
+    {
+         t_type = <INT>
+         {
+            SaveLexicalInformation(t_type,"INT");
+         }
+    }
+
+    void While():
+    {
+        Token t_while;
+    }
+    {
+         t_while = <WHILE>
+         {
+            SaveLexicalInformation(t_while,"WHILE");
+         }
+    }
+
+    void Colon():
+    {
+        Token t_colon;
+    }
+    {
+        t_colon = <COLON>
+        {
+            SaveLexicalInformation(t_colon,"COLON");
+        }
+    }
+    
+    void Deflt():
+    {
+        Token t_deflt;
+    }
+    {
+        t_deflt = <DEFLT>
+        {
+            SaveLexicalInformation(t_deflt,"DEFLT");
+        }
+    }
+    
+    void Case():
+    {
+        Token t_case;
+    }
+    {
+        t_case = <CASE>
+        {
+            SaveLexicalInformation(t_case,"CASE");
+        }
+    }
+    
+    void Switch():
+    {
+        Token t_switch;
+    }
+    {
+        t_switch = <SWITCH>
+        {
+            SaveLexicalInformation(t_switch,"SWITCH");
+        }
+    }
+
+
+    void Break() :
+    {
+       Token t_break;
+    }
+    {
+        t_break = <BREAK> 
+        SemiCol()
+        {
+            SaveLexicalInformation(t_break,"BREAK");
+        }
+    }
+
+    void SemiCol():
+    {
+        Token t_semicol;
+    }
+    {
+        t_semicol = <SEMICOL>
+        {
+             SaveLexicalInformation(t_semicol,"SEMICOL");
+        }
+    }
+    
+    void Cbra() : 
+    {
+        Token t_cbra;
+    }
+    {
+        t_cbra = <CBRA>
+        {
+            SaveLexicalInformation(t_cbra,"CBRA");
+        }
+    }    
+    
+    void Obra() : 
+    {
+        Token t_obra;
+    }
+    {
+        t_obra = <OBRA>
+        {
+            SaveLexicalInformation(t_obra,"OBRA");
+        }
+    }    
+    
+    void Else() : 
+    {
+        Token t_else;
+    }
+    {
+        t_else = <ELSE>
+        {
+            SaveLexicalInformation(t_else,"ELSE");
+        }
+    }    
+    
+    void If() : 
+    {
+        Token t_if;
+    }
+    {
+        t_if = <IF>
+        {
+             SaveLexicalInformation(t_if,"IF");
+        }
+    }    
+    
+    void Or() : 
+    {
+        Token t_or;
+    }
+    {
+       t_or = <OR>
+       {
+            SaveLexicalInformation(t_or,"OR");
+       }
+    }
+
+    void And() : 
+    {
+        Token t_and;
+    }
+    {
+       t_and = <AND>
+       {
+            SaveLexicalInformation(t_and,"AND");
+       }
+    }
+
+    void Nequ(): 
+    {
+        Token t_nequ;
+    }
+    {
+        t_nequ = <NEQU>
+        {
+            SaveLexicalInformation(t_nequ,"NEQU");
+        }
+    }
+    
+    void Equ(): 
+    {
+        Token t_equ;
+    }
+    {
+        t_equ = <EQU>
+        {
+            SaveLexicalInformation(t_equ,"EQU");
+        }
+    }
+
+    void Gequ() : 
+    {
+        Token t_gequ;
+    }
+    {
+        t_gequ = <GEQU>
+        {
+            SaveLexicalInformation(t_gequ,"GEQU");
+        }
+    }   
+
+    void Great() : 
+    {
+        Token t_great;
+    }
+    {
+        t_great = <GREAT>
+        {
+            SaveLexicalInformation(t_great,"GREAT");
+        }
+    }   
+
+    void Lequ() : 
+    {
+        Token t_lequ;
+    }
+    {
+        t_lequ = <LEQU>
+        {
+            SaveLexicalInformation(t_lequ,"LEQU");
+        }
+    }   
+
+    void Less() : 
+    {
+        Token t_less;
+    }
+    {
+        t_less = <LESS>
+        {
+            SaveLexicalInformation(t_less,"LESS");
+        }
+    }
+
+    void Minus() :
+    {
+        Token t_minus;
+    }
+    {
+        t_minus = <MINUS>
+        {
+            SaveLexicalInformation(t_minus,"MINUS");
+        }
+    }
+
+    void Plus() :
+    {
+        Token t_plus;
+    }
+    {
+        t_plus = <PLUS>
+        {
+            SaveLexicalInformation(t_plus,"PLUS");    
+        }
+    }
+    
+    void Percent() :
+    {
+        String percent_;
+        Token t_percent;
+    }
+    {
+        t_percent = <PERCENT>
+        {
+            SaveLexicalInformation(t_percent,"PERCENT");
+        }
+    }
+
+    void Times() :
+    {
+        String times_;
+        Token t_times;
+    }
+    {
+        t_times = <TIMES>
+        {
+            SaveLexicalInformation(t_times,"TIMES");
+        }
+    }
+
+    void Div() :
+    {
+        String div_;
+        Token t_div;
+    }
+    {
+        t_div = <DIV>
+        {
+            SaveLexicalInformation(t_div,"DIV");
+        }
+    }
+
+    void Opar() : 
+    {
+        String opar_;
+        Token t_opar;
+    }
+    {
+        t_opar = <OPAR>
+        {
+            SaveLexicalInformation(t_opar,"OPAR");
+        }
+    }
+    
+    void Cpar() : 
+    {
+        String cpar_;
+        Token t_cpar;
+    }
+    {
+        t_cpar = <CPAR>
+        {
+            SaveLexicalInformation(t_cpar,"CPAR");
+        }
+    }
+
+    void Not() : 
+    { 
+        Token t_not = null;
+    }
+    {
+          t_not = <NOT>
+          {
+                SaveLexicalInformation(t_not,"NOT");
+          }
+    }
+
+    void Ident() :
+    {
+        String ident_;
+        Token t_ident;    
+    }
+    {
+        t_ident = <IDENT>    
+        {  
+            ident_ = t_ident.image;
+            SaveLexicalInformation(t_ident,"IDENT");
+        }
+    }
+    
+    void Number() : 
+    {
+        Integer number_;
+        Token t_number;
+        String s_number;
+    }
+    {
+        t_number = <NUMBER>
+        {
+            try{
+                s_number = t_number.image;
+                number_ = Integer.parseInt(s_number);
+                if( number_ > Integer.MAX_VALUE )
+                   throw new NumberFormatException(); 
+
+                SaveLexicalInformation(t_number,"NUMBER");    
+            }
+            catch(NumberFormatException n){
+                System.out.println("Erro de estouro de tamanho de inteiro" + " "
+                + Integer.MAX_VALUE + " e o maior tamanho permitido");
+            } 
+        }
+    }
+
+    //Fim Tokens - Análises
+
+    void Program() :
+    {        
     }
     {   
-        (VariableDeclaration())* 
-            ProcedureDeclaration() 
-        (ProcedureDeclaration())*
+        (    
+            ( VariableDeclaration() )* 
+                ProcedureDeclaration() 
+            ( ProcedureDeclaration() )*
+        )
         <EOF>
     }
 
@@ -114,21 +591,10 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
 
-    void Void():
-    {
-        Token t_void;
-    }
-    {
-        t_void = <VOID>
-        {
-            System.out.println("Void");
-        }
-    }
+    
 
     void ProcedureBody() :
     {
-        
-        
     }
     {
         (VariableDeclaration())* StatementSequence()
@@ -137,63 +603,39 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ProcedureHeading() :
     {
-        
-        
     }
     {
-        Ident() Opar() (Parameter())? Cpar()
-        
+        Ident() Opar() (Parameter())? Cpar()  
     }
 
     void ParametersList() :
     {
-        
-        
     }
     {
         Parameter() ( Comma() Parameter())*
-        
     }
 
     void Parameter() :
-    {
-        
-        
+    {    
     }
     {
         Type() Ident()
-        
     }
 
     void VariableDeclaration() :
-    {
-        
-        
+    {   
     }
     {
         Type() IdentList() SemiCol()
         
     }
     
-    void Type():
-    {
-        Token t_type;
-    }
-    {
-         t_type = <INT>
-         {
-            System.out.println("Type");
-         }
-    }
-
     void IdentList() : 
     {
-        
         
     }
     {
         Ident() ( Assignment() )? ( Comma() IdentList() )?
-        
     }
 
     void StatementSequence() : 
@@ -208,8 +650,6 @@ TOKEN : { < SEMICOL : ";" > }
     
     void LoopStatementSequence() : 
     {
-        
-        
     }
     {
         ( Statement() | Break() )
@@ -218,50 +658,29 @@ TOKEN : { < SEMICOL : ";" > }
 
     void Statement() :
     {
-        
-        
     }
     {
         ( ( Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
-        SelectionStatement() ) SemiCol() (SemiCol())*) 
-        
+        SelectionStatement() ) SemiCol() (SemiCol())* )   
     }
 
     void WhileStatement() :
     {
-        
-        
     }
     {
         While() Opar() Expression() Cpar() Obra() LoopStatementSequence() Cbra()
         
     }
 
-    void While():
-    {
-        Token t_while;
-    }
-    {
-         t_while = <WHILE>
-         {
-            System.out.println("While");
-         }
-    }
-
     void SelectionStatement() :
-    {
-        
-        
+    {   
     }
     {
         IfStatement() | SwitchStatement()
-        
     }
 
     void SwitchStatement() :
-    {
-        
-        
+    {   
     }
     {
         Switch() Opar() Expression() Cpar() Obra() 
@@ -273,78 +692,9 @@ TOKEN : { < SEMICOL : ";" > }
         )+
         (
             Deflt() Colon() LoopStatementSequence()
-        )? Cbra()
-        
+        )? Cbra()   
     }
     
-    void Colon():
-    {
-        Token t_colon;
-    }
-    {
-        t_colon = <COLON>
-        {
-            System.out.println(":");
-        }
-    }
-    
-    void Deflt():
-    {
-        Token t_deflt;
-    }
-    {
-        t_deflt = <DEFLT>
-        {
-            System.out.println("Default");
-        }
-    }
-    
-    void Case():
-    {
-        Token t_case;
-    }
-    {
-        t_case = <CASE>
-        {
-            System.out.println("case");
-        }
-    }
-    
-    void Switch():
-    {
-        Token t_switch;
-    }
-    {
-        t_switch = <SWITCH>
-        {
-            System.out.println("switch");
-        }
-    }
-
-
-    void Break() :
-    {
-       Token t_break;
-    }
-    {
-        t_break = <BREAK> 
-        SemiCol()
-        {
-            System.out.println("break");
-        }
-    }
-
-    void SemiCol():
-    {
-        Token t_semicol;
-    }
-    {
-        t_semicol = <SEMICOL>
-        {
-            System.out.println(";");
-        }
-    }
-
     void IfStatement() :
     {
     }
@@ -359,51 +709,6 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     
-    void Cbra() : 
-    {
-        Token t_cbra;
-    }
-    {
-        t_cbra = <CBRA>
-        {
-            System.out.println("}");
-        }
-    }    
-    
-    void Obra() : 
-    {
-        Token t_obra;
-    }
-    {
-        t_obra = <OBRA>
-        {
-            System.out.println("{");
-        }
-    }    
-    
-    void Else() : 
-    {
-        Token t_else;
-    }
-    {
-        t_else = <ELSE>
-        {
-            System.out.println("else");
-        }
-    }    
-    
-    void If() : 
-    {
-        Token t_if;
-    }
-    {
-        t_if = <IF>
-        {
-            System.out.println("if");
-        }
-    }    
-
-
     void ProcedureCall() :
     {
         
@@ -436,7 +741,7 @@ TOKEN : { < SEMICOL : ";" > }
     {
         t_comma = <COMMA>
         {
-            System.out.println(",");
+            SaveLexicalInformation(t_comma,"COMMA");
         }    
     }
     
@@ -457,7 +762,7 @@ TOKEN : { < SEMICOL : ";" > }
     {
         t_assign = <ASSIGN>
         {
-            System.out.println("=");
+            SaveLexicalInformation(t_assign,"ASSIGN");
         }    
     }
         
@@ -612,39 +917,7 @@ TOKEN : { < SEMICOL : ";" > }
         AndExpr() ( <OR> AndExpr() )*
         
     }
-
-    void Or() : 
-    {
-        Token t_or;
-    }
-    {
-       t_or = <OR>
-       {
-            System.out.println("||");
-       }
-    }
-
-    void AndExpr() :
-    {
         
-        
-    }
-    {
-        EqualityExpr() ( And() EqualityExpr() )*
-        
-    }
-
-    void And() : 
-    {
-        Token t_and;
-    }
-    {
-       t_and = <AND>
-       {
-            System.out.println("&&");
-       }
-    }
-
     void EqualityExpr() :
     {
         
@@ -661,27 +934,15 @@ TOKEN : { < SEMICOL : ";" > }
         InequationExpr() 
         )?       
     }
-    
-    void Nequ(): 
+
+    void AndExpr() :
     {
-        Token t_nequ;
+        
+        
     }
     {
-        t_nequ = <NEQU>
-        {
-            System.out.println("!=");
-        }
-    }
-    
-    void Equ(): 
-    {
-        Token t_equ;
-    }
-    {
-        t_equ = <EQU>
-        {
-            System.out.println("==");
-        }
+        EqualityExpr() ( And() EqualityExpr() )*
+        
     }
 
     void InequationExpr() :
@@ -703,50 +964,6 @@ TOKEN : { < SEMICOL : ";" > }
         )?
     }
 
-    void Gequ() : 
-    {
-        Token t_gequ;
-    }
-    {
-        t_gequ = <GEQU>
-        {
-            System.out.println(">=");
-        }
-    }   
-
-    void Great() : 
-    {
-        Token t_great;
-    }
-    {
-        t_great = <GREAT>
-        {
-            System.out.println(">");
-        }
-    }   
-
-    void Lequ() : 
-    {
-        Token t_lequ;
-    }
-    {
-        t_lequ = <LEQU>
-        {
-            System.out.println("<=");
-        }
-    }   
-
-    void Less() : 
-    {
-        Token t_less;
-    }
-    {
-        t_less = <LESS>
-        {
-            System.out.println("<");
-        }
-    }   
-
     void SimpleExpr() :
     {
       
@@ -766,28 +983,6 @@ TOKEN : { < SEMICOL : ";" > }
        )*
     }
 
-    void Minus() :
-    {
-        Token t_minus;
-    }
-    {
-        t_minus = <MINUS>
-        {
-            System.out.println("-");
-        }
-    }
-
-    void Plus() :
-    {
-        Token t_plus;
-    }
-    {
-        t_plus = <PLUS>
-        {
-            System.out.println("+");
-        }
-    }
-
     void Term() :
     {
     }
@@ -803,42 +998,6 @@ TOKEN : { < SEMICOL : ";" > }
             ) 
             Unary() 
         )*
-    }
-
-    void Percent() :
-    {
-        String percent_;
-        Token t_percent;
-    }
-    {
-        t_percent = <PERCENT>
-        {
-            System.out.println("%");
-        }
-    }
-
-    void Times() :
-    {
-        String times_;
-        Token t_times;
-    }
-    {
-        t_times = <TIMES>
-        {
-            System.out.println("*");
-        }
-    }
-
-    void Div() :
-    {
-        String div_;
-        Token t_div;
-    }
-    {
-        t_div = <DIV>
-        {
-            System.out.println("/");
-        }
     }
 
     void Unary() :
@@ -865,88 +1024,15 @@ TOKEN : { < SEMICOL : ";" > }
         Opar() Expression() Cpar() //Já foi resolvido, falta Expression
     }
     
-    void Opar() : 
-    {
-        String opar_;
-        Token t_opar;
-    }
-    {
-        t_opar = <OPAR>
-        {
-            System.out.println("(");
-        }
-    }
-    
-    void Cpar() : 
-    {
-        String cpar_;
-        Token t_cpar;
-    }
-    {
-        t_cpar = <CPAR>
-        {
-            System.out.println(")");
-        }
-    }
-
     void UnaryOperator() :
-    {
-        String unary_ = null ;
-        Token t_not = null;
-        Token t_minus = null;
+    {      
     }
     {
-        t_not = <NOT>
-        {
-           unary_ = t_not.image;
-           
-           System.out.println("!");  
-           
-        } 
-        | t_minus = <MINUS>
-        {
-            unary_ = t_minus.image;
-            
-            System.out.println("-");
-        }
-    }
-
-    void Ident() :
-    {
-        String ident_;
-        Token t_ident;    
-    }
-    {
-        t_ident = <IDENT>    
-        {  
-            ident_ = t_ident.image;
-            //falta fazer comparação com os identificadores
-            //da linguagem int, switch, etc
-            System.out.println("Ident");
-        }
+        Not()
+        |
+        Minus()
     }
     
-    void Number() : 
-    {
-        Integer number_;
-        Token t_number;
-        String s_number;
-    }
-    {
-        t_number = <NUMBER>
-        {
-            try{
-                s_number = t_number.image;
-                number_ = Integer.parseInt(s_number);
-                if( number_ > Integer.MAX_VALUE )
-                   throw new NumberFormatException(); 
+    
 
-                System.out.println("Number");    
-            }
-            catch(NumberFormatException n){
-                System.out.println("Erro de estouro de tamanho de inteiro" + " "
-                + Integer.MAX_VALUE + " e o maior tamanho permitido");
-            } 
-        }
-    }
-
+    
