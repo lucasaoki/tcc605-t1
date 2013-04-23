@@ -111,7 +111,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <VOID> ProcedureHeading() <OBRA> ProcedureBody() <CBRA>
+        <VOID> ProcedureHeading() <OBRA> ProcedureBody() <CBRA>
         {
             string = t.image;
             return string;
@@ -137,7 +137,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = Ident() <OPAR> (Parameter())? <CPAR>
+        Ident() <OPAR> (Parameter())? <CPAR>
         {
             string = t.image;
             return string;
@@ -150,7 +150,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = Parameter() ( <COMMA> Parameter())*
+        Parameter() ( <COMMA> Parameter())*
         {
             string = t.image;
             return string;
@@ -163,7 +163,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <INT> Ident()
+        <INT> Ident()
         {
             string = t.image;
             return string;
@@ -176,7 +176,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <INT> IdentList() <SEMICOL>
+        <INT> IdentList() <SEMICOL>
         {
             string = t.image;
             return string;
@@ -189,7 +189,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = Ident() ( Assignment() )? ( <COMMA> IdentList() )?
+        Ident() ( Assignment() )? ( <COMMA> IdentList() )?
         {
             string = t.image;
             return string;
@@ -242,7 +242,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <WHILE> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
+        <WHILE> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
         {
             string = t.image;
             return string;
@@ -255,7 +255,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = IfStatement() | SwitchStatement()
+        IfStatement() | SwitchStatement()
         {
             string = t.image;
             return string;
@@ -268,7 +268,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <SWITCH> <OPAR> Expression() <CPAR> <OBRA> (LoopStatementSequence())
+        <SWITCH> <OPAR> Expression() <CPAR> <OBRA> (LoopStatementSequence())
         (<CASE> ConstantExpression() <COLON> LoopStatementSequence())+
         (<DEFLT> <COLON> LoopStatementSequence())? <CBRA>
         {
@@ -283,7 +283,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <BREAK> <SEMICOL>
+        <BREAK> <SEMICOL>
         {
             string = t.image;
             return string;
@@ -296,7 +296,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <IF> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
+        <IF> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
         (<ELSE> <OBRA> LoopStatementSequence() (Break())? <CBRA> )?
         {
             string = t.image;
@@ -310,7 +310,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <OPAR> (ExpList())? <CPAR>
+        <OPAR> (ExpList())? <CPAR>
         {
             string = t.image;
             return string;
@@ -323,7 +323,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = Expression() (<COMMA> Expression())*
+        Expression() (<COMMA> Expression())*
         {
             string = t.image;
             return string;
@@ -336,7 +336,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = <EQU> Expression()
+        <EQU> Expression()
         {
             string = t.image;
             return string;
@@ -349,7 +349,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = ConstantOrExpr()
+        ConstantOrExpr()
         {
             string = t.image;
             return string;
@@ -362,7 +362,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = ConstantAndExpr() (<OR> ConstantAndExpr())?
+        ConstantAndExpr() (<OR> ConstantAndExpr())?
         {
             string = t.image;
             return string;
@@ -375,7 +375,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = ConstantEqualityExpr() ( <AND> ConstantEqualityExpr() )*
+        ConstantEqualityExpr() ( <AND> ConstantEqualityExpr() )*
         {
             string = t.image;
             return string;
@@ -388,7 +388,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = ConstantInequationExpr() ( ( <EQU> | <NEQU> ) ConstantInequationExpr() )?
+        ConstantInequationExpr() ( ( <EQU> | <NEQU> ) ConstantInequationExpr() )?
         {
             string = t.image;
             return string;
@@ -401,7 +401,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = ConstantSimpleExpr() ( (<LESS> | <LEQU> | <GREAT> | <GEQU>) ConstantSimpleExpr() )?
+        ConstantSimpleExpr() ( (<LESS> | <LEQU> | <GREAT> | <GEQU>) ConstantSimpleExpr() )?
         {
             string = t.image;
             return string;
@@ -427,7 +427,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = ConstantUnary() ( (<TIMES> | <DIV> | <PERCENT>) ConstantUnary() )*
+        ConstantUnary() ( (<TIMES> | <DIV> | <PERCENT>) ConstantUnary() )*
         {
             string = t.image;
             return string;
@@ -440,7 +440,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = UnaryOperator() ConstantUnary() | ConstantFactor()
+        UnaryOperator() ConstantUnary() | ConstantFactor()
         {
             string = t.image;
             return string;
@@ -453,7 +453,7 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-        t = Number() | <OPAR> ConstantExpression() <CPAR>
+        Number() | <OPAR> ConstantExpression() <CPAR>
         {
             string = t.image;
             return string;
@@ -466,11 +466,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-            t = OrExpr()	
-            {
-                string = t.image;
-                return string;
-            }
+        OrExpr()	
+        {
+            string = t.image;
+            return string;
+        }
     }
 
     String OrExpr() :
@@ -479,11 +479,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-            t = AndExpr() ( <OR> AndExpr() )*
-            {
-                string = t.image;
-                return string;
-            }
+        AndExpr() ( <OR> AndExpr() )*
+        {
+            string = t.image;
+            return string;
+        }
     }
 
     String AndExpr() :
@@ -492,11 +492,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-            t = EqualityExpr() ( <AND> EqualityExpr() )*
-            {
-                string = t.image;
-                return string;
-            }
+        EqualityExpr() ( <AND> EqualityExpr() )*
+        {
+            string = t.image;
+            return string;
+        }
     }
 
     String EqualityExpr() :
@@ -505,11 +505,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token t;
     }
     {
-            t = InequationExpr() ( ( <EQU> | <NEQU> ) InequationExpr() )?
-            {
-                string = t.image;
-                return string;
-            }    
+        InequationExpr() ( ( <EQU> | <NEQU> ) InequationExpr() )?
+        {
+            string = t.image;
+            return string;
+        }    
     }
 
     String InequationExpr() :
@@ -519,11 +519,11 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-           t = SimpleExpr() ( ( <LESS> | <LEQU> | <GREAT> | <GEQU> ) SimpleExpr() )?
-           {
-                string = t.image;
-                return string;
-           }
+       SimpleExpr() ( ( <LESS> | <LEQU> | <GREAT> | <GEQU> ) SimpleExpr() )?
+       {
+            string = t.image;
+            return string;
+       }
  
     }
 
@@ -533,11 +533,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token  t_simpleExp;
     }
     {
-            ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
-            {
-                simpleExp_ = t_simpleExp.image;
-                return simpleExp_;
-            }
+        ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
+        {
+            simpleExp_ = t_simpleExp.image;
+            return simpleExp_;
+        }
     }
 
     String Term() :
@@ -546,11 +546,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token t_term;
     }
     {
-            t_term = Unary() ( ( <TIMES> | <DIV> | <PERCENT> ) Unary() )*
-            {
-                term_ = t_term.image;
-                return term_;
-            }    
+        t_term = Unary() ( ( <TIMES> | <DIV> | <PERCENT> ) Unary() )*
+        {
+            term_ = t_term.image;
+            return term_;
+        }    
     }
 
     String Unary() :
@@ -559,11 +559,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token t_unary;
     }
     {
-            t_unary = UnaryOperator() Unary() | Factor()
-            {
-                unary_ = t_unary;
-                return unary_;
-            }
+        t_unary = UnaryOperator() Unary() | Factor()
+        {
+            unary_ = t_unary;
+            return unary_;
+        }
     }
 
     String Factor() :
@@ -572,11 +572,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token t_factor;
     }
     {
-            t_factor = Ident() | Number() | <OPAR> Expression() <CPAR>
-            {
-                factor_ = t_factor.image;
-                return factor_;
-            }    
+        t_factor = Ident() | Number() | <OPAR> Expression() <CPAR>
+        {
+            factor_ = t_factor.image;
+            return factor_;
+        }    
     }
 
     String UnaryOperator() :
@@ -585,11 +585,11 @@ TOKEN : { < SEMICOL : ";" > }
         Token t_unary;
     }
     {
-            t_unary = <NOT> | <MINUS>
-            {
-                unary_ = t_unary.image;
-                return unary_;
-            }
+        t_unary = <NOT> | <MINUS>
+        {
+            unary_ = t_unary.image;
+            return unary_;
+        }
     }
 
     String Ident() :
