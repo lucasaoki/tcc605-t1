@@ -101,7 +101,7 @@ TOKEN : { < SEMICOL : ";" > }
         <EOF>
     }
 
-    void ProcedureDeclaration() :
+    String ProcedureDeclaration() :
     {
         String string;
         Token t;
@@ -114,7 +114,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ProcedureBody() :
+    String ProcedureBody() :
     {
         String string;
         Token t;
@@ -127,7 +127,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ProcedureHeading() :
+    String ProcedureHeading() :
     {
         String string;
         Token t;
@@ -140,7 +140,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ParametersList() :
+    String ParametersList() :
     {
         String string;
         Token t;
@@ -153,7 +153,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void Parameter() :
+    String Parameter() :
     {
         String string;
         Token t;
@@ -166,7 +166,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void VariableDeclaration() :
+    String VariableDeclaration() :
     {
         String string;
         Token t;
@@ -179,7 +179,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
     
-    void IdentList() : 
+    String IdentList() : 
     {
         String string;
         Token t;
@@ -192,7 +192,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void StatementSequence() : 
+    String StatementSequence() : 
     {
         String string;
         Token t;
@@ -205,7 +205,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
     
-    void LoopStatementSequence() : 
+    String LoopStatementSequence() : 
     {
         String string;
         Token t;
@@ -218,7 +218,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void Statement() :
+    String Statement() :
     {
         String string;
         Token t;
@@ -232,7 +232,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void WhileStatement() :
+    String WhileStatement() :
     {
         String string;
         Token t;
@@ -245,7 +245,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void SelectionStatement() :
+    String SelectionStatement() :
     {
         String string;
         Token t;
@@ -258,7 +258,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void SwitchStatement() :
+    String SwitchStatement() :
     {
         String string;
         Token t;
@@ -273,7 +273,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
     
-    void Break() :
+    String Break() :
     {
         String string;
         Token t;
@@ -286,7 +286,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void IfStatement() :
+    String IfStatement() :
     {
         String string;
         Token t;
@@ -300,7 +300,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ProcedureCall() :
+    String ProcedureCall() :
     {
         String string;
         Token t;
@@ -313,7 +313,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ExpList() :
+    String ExpList() :
     {
         String string;
         Token t;
@@ -326,7 +326,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void Assignment() :
+    String Assignment() :
     {
         String string;
         Token t;
@@ -339,7 +339,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ConstantExpression() :
+    String ConstantExpression() :
     {
         String string;
         Token t;
@@ -352,7 +352,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ConstantOrExpr() :
+    String ConstantOrExpr() :
     {
         String string;
         Token t;
@@ -365,7 +365,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ConstantAndExpr() :
+    String ConstantAndExpr() :
     {
         String string;
         Token t;
@@ -378,7 +378,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ConstantEqualityExpr() :
+    String ConstantEqualityExpr() :
     {
         String string;
         Token t;
@@ -391,7 +391,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ConstantInequationExpr() :
+    String ConstantInequationExpr() :
     {
         String string;
         Token t;
@@ -404,7 +404,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ConstantSimpleExpr() :
+    String ConstantSimpleExpr() :
     {
         String string;
         Token t;
@@ -417,7 +417,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ConstantTerm() :
+    String ConstantTerm() :
     {
         String string;
         Token t;
@@ -430,7 +430,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void ConstantUnary() :
+    String ConstantUnary() :
     {
         String string;
         Token t;
@@ -443,7 +443,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
     
-    void ConstantFactor() : 
+    String ConstantFactor() : 
     {
         String string;
         Token t;
@@ -456,7 +456,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    void Expression() :
+    String Expression() :
     {
         String string;
         Token t;
@@ -469,7 +469,7 @@ TOKEN : { < SEMICOL : ";" > }
             }
     }
 
-    void OrExpr() :
+    String OrExpr() :
     {
         String string;
         Token t;
@@ -482,7 +482,7 @@ TOKEN : { < SEMICOL : ";" > }
             }
     }
 
-    void AndExpr() :
+    String AndExpr() :
     {
         String string;
         Token t;
@@ -495,7 +495,7 @@ TOKEN : { < SEMICOL : ";" > }
             }
     }
 
-    void EqualityExpr() :
+    String EqualityExpr() :
     {
         String string;
         Token t;
@@ -583,7 +583,7 @@ TOKEN : { < SEMICOL : ";" > }
     {
             t_unary = <NOT> | <MINUS>
             {
-                unary_ = t.image;
+                unary_ = t_unary.image;
                 return unary_;
             }
     }
