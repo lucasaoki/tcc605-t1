@@ -50,8 +50,10 @@ PARSER_END(Switch)
 
 SKIP  : {" " | "\t" }
 TOKEN : { < EOL : "\n" | "\r" | "\r\n" > }
-TOKEN : { < LETTER : ["a"-"z","A"-"Z","_"] > }
-TOKEN : { < DIGIT : ["0"-"9"] > }
+TOKEN : { < #LETTER : ["a"-"z","A"-"Z","_"] > }
+TOKEN : { <IDENT : <LETTER> ( <LETTER> | <DIGIT>)* >}
+TOKEN : { < #DIGIT : ["0"-"9"] > }
+TOKEN : { <NUMBER : (<DIGIT>)+ > }
 
 TOKEN : { < PLUS : "+" > }
 TOKEN : { < MINUS : "-" > }
@@ -98,11 +100,10 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {   
-        string = Number()
+        (string = Number() | string = Ident())+ 
         {
             System.out.println(string);
-        }
-
+        }<EOL>
     }
 
     void ProcedureDeclaration() :
@@ -201,7 +202,7 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        ( (Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
+        ( ( Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
         SelectionStatement() ) <SEMICOL> (<SEMICOL>)*) 
         
     }
@@ -432,67 +433,44 @@ TOKEN : { < SEMICOL : ";" > }
 
     void SimpleExpr() :
     {
-        String simpleExp_;
-        Token  t_simpleExp;
+      
     }
     {
-        ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
-        {
-            simpleExp_ = t_simpleExp.image;
-            return simpleExp_;
-        }
+       ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
+
     }
 
     void Term() :
     {
-        String term_;
-        Token t_term;
     }
     {
-        t_term = Unary() ( ( <TIMES> | <DIV> | <PERCENT> ) Unary() )*
-        {
-            term_ = t_term.image;
-            return term_;
-        }    
+        Unary() ( ( <TIMES> | <DIV> | <PERCENT> ) Unary() )*
+            
     }
 
     void Unary() :
     {
-        String unary_;
-        Token t_unary;
+        
     }
     {
-        t_unary = UnaryOperator() Unary() | Factor()
-        {
-            unary_ = t_unary;
-            return unary_;
-        }
+        UnaryOperator() Unary() | Factor()
+        
     }
 
     void Factor() :
     {
-        String factor_;
-        Token t_factor;
     }
     {
-        t_factor = Ident() | Number() | <OPAR> Expression() <CPAR>
-        {
-            factor_ = t_factor.image;
-            return factor_;
-        }    
+        Ident() | Number() | <OPAR> Expression() <CPAR>
+       
     }
 
     void UnaryOperator() :
     {
-        String unary_;
-        Token t_unary;
     }
     {
-        t_unary = <NOT> | <MINUS>
-        {
-            unary_ = t_unary.image;
-            return unary_;
-        }
+        <NOT> | <MINUS>
+        
     }
 
     String Ident() :
@@ -503,7 +481,7 @@ TOKEN : { < SEMICOL : ";" > }
     {
         
 
-        t_ident = <LETTER> ( <LETTER> | <DIGIT> )*
+        t_ident = <IDENT>    
         {  
             ident_ = t_ident.image;
             return ident_;
@@ -517,18 +495,19 @@ TOKEN : { < SEMICOL : ";" > }
         String s_number;
     }
     {
-        t_number = <DIGIT> ( <DIGIT> )*
+        t_number = <NUMBER>
         {
             try{
                 s_number = t_number.image;
                 number_ = Integer.parseInt(s_number);
-                if( number > 2147483648 )
+                if( number_ > Integer.MAX_VALUE )
                    throw new NumberFormatException(); 
 
                 return s_number;    
             }
             catch(NumberFormatException n){
-                System.out.println("JACA");
+                System.out.println("Erro de estouro de tamanho de inteiro" + " "
+                + Integer.MAX_VALUE + " e o maior tamanho permitido");
             } 
         }
     }
