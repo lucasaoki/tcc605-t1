@@ -291,6 +291,76 @@ public class Switch {
         Number() | <OPAR> ConstantExpression() <CPAR>
     }
 
+    void Expression() :
+    {
+    }
+    {
+            OrExpr()	
+    }
+
+    void OrExpr() :
+    {
+    }
+    {
+            AndExpr() ( <OR> <AndExpr> )*
+    }
+
+    void AndExpr() :
+    {
+    }
+    {
+            EqualityExpr() ( <AND> <EqualityExpr> )*
+    }
+
+    void EqualityExpr() :
+    {
+    }
+    {
+            InequationExpr() ( ( <EQU> | <NEQU> ) InequationExpr() )?
+    }
+
+    void InequationExpr() :
+    {
+    }
+    {
+            SimpleExpr() ( ( <LESS> | <LEQU> | <GREAT> | <GEQU> ) SimpleExpr() )?
+    }
+
+    void SimpleExpr() :
+    {
+    }
+    {
+            ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
+    }
+
+    void Term() :
+    {
+    }
+    {
+            Unary() ( ( <TIMES> | <DIV> | <PERCENT> ) Unary() )*
+    }
+
+    void Unary() :
+    {
+    }
+    {
+            UnaryOperator() Unary() | Factor()
+    }
+
+    void Factor() :
+    {
+    }
+    {
+            Ident() | Number() | <OPAR> Expression() <CPAR>
+    }
+
+    void UnaryOperator() :
+    {
+    }
+    {
+            <NOT> | <MINUS>
+    }
+
     void Ident() :
     {
     }
