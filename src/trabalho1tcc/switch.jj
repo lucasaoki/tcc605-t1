@@ -25,10 +25,31 @@ options {
   FORCE_LA_CHECK = false;
 }
 
+PARSER_BEGIN(Switch)
+import java.io.PrintStream ;
+public class Switch {
+
+    public static void main(String args[]) {
+        Switch parser = new Switch(System.in);
+        while (true) {
+            try {
+                parser.Program(System.out);
+            }   catch (ParseException e) {
+                    System.out.println(e.getMessage());
+                    System.exit(-1);
+                }   catch (TokenMsgError e) {
+                        System.out.println(e.getMessage());
+                        System.exit(-1);
+                    }
+        }
+    }
+}
+PARSER_END(Switch)
+
 SKIP  : {" " | "\t" }
 TOKEN : { < EOL : "\n" | "\r" | "\r\n" > }
-TOKEN : { < #LETTER : [”a”-”z”,”A”-”Z”,"_"] > }
-TOKEN : { < #DIGIT : (["0"-"9"])+ > }
+TOKEN : { < LETTER : ["a"-"z","A"-"Z","_"] > }
+TOKEN : { < DIGIT : ["0"-"9"] > }
 
 TOKEN : { < PLUS : "+" > }
 TOKEN : { < MINUS : "-" > }
@@ -41,13 +62,14 @@ TOKEN : { < CPAR : ")" > }
 TOKEN : { < OBRA : "{" > }
 TOKEN : { < CBRA : "}" > }
 
+TOKEN : { < WHILE : "while" > }
 TOKEN : { < IF : "if" > }
 TOKEN : { < ELSE : "else" > }
 
 TOKEN : { < SWITCH : "switch" > }
 TOKEN : { < CASE: "case" > }
 TOKEN : { < COLON : ":" > }
-TOKEN : { < DEFAULT: "default" > }
+TOKEN : { < DEFLT: "default" > }
 TOKEN : { < BREAK: "break" > }
 
 TOKEN : { < INT: "int" > }
@@ -67,26 +89,6 @@ TOKEN : { < OR : "||" > }
 TOKEN : { < ASSIGN : "=" > }
 TOKEN : { < COMMA : "," > }
 TOKEN : { < SEMICOL : ";" > }
-
-
-PARSER_BEGIN(Switch)
-import java.io.PrintStream ;
-public class Switch {
-
-    public static void main(String args[]) {
-        Switch parser = new Switch(System.in);
-        while (true) {
-            try {
-                parser.Program(System.out);
-            }   catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                    System.exit(-1);
-                }   catch (TokenMsgError e) {
-                        System.out.println(e.getMessage());
-                        System.exit(-1);
-                    }
-        }
-    }
 
     void Program() :
     {
@@ -115,7 +117,7 @@ public class Switch {
     {
     }
     {
-        Ident() <OPAR> (Parameter)? <CPAR>
+        Ident() <OPAR> (Parameter())? <CPAR>
     }
 
     void ParametersList() :
@@ -146,7 +148,7 @@ public class Switch {
         Ident() ( Assignment() )? ( <COMMA> IdentList() )*
     }
 
-    void StatmentSequence() : 
+    void StatementSequence() : 
     {
     }
     {
@@ -172,7 +174,7 @@ public class Switch {
     {
     }
     {
-        <WHILE> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence <CBRA>
+        <WHILE> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
     }
 
     void SelectionStatement() :
@@ -188,7 +190,7 @@ public class Switch {
     {
         <SWITCH> <OPAR> Expression() <CPAR> <OBRA> (LoopStatementSequence())*
         (<CASE> ConstantExpression() <COLON> LoopStatementSequence())* 
-        (<DEFAULT> <COLON> LoopStatementSequence())? <CBRA>
+        (<DEFLT> <COLON> LoopStatementSequence())? <CBRA>
     }
     
     void Break() :
@@ -238,7 +240,7 @@ public class Switch {
     {
     }
     {
-        ConstantAnd() (<OR> ConstantAndExpr())?
+        ConstantAndExpr() (<OR> ConstantAndExpr())?
     }
 
     void ConstantAndExpr() :
@@ -252,10 +254,10 @@ public class Switch {
     {
     }
     {
-        InequationExpr ( (<EQU> | <NEQU>) InequationExpr() )?
+        ConstantInequationExpr() ( ( <EQU> | <NEQU> ) ConstantInequationExpr() )?
     }
 
-    void ConstantInequationExpr()
+    void ConstantInequationExpr() :
     {
     }
     {
@@ -274,7 +276,7 @@ public class Switch {
     {
     }
     {
-        ConstantUnary() ( (<*> | </> | <%>) ConstantUnary() )*
+        ConstantUnary() ( (<TIMES> | <DIV> | <PERCENT>) ConstantUnary() )*
     }
 
     void ConstantUnary() :
@@ -302,14 +304,14 @@ public class Switch {
     {
     }
     {
-            AndExpr() ( <OR> <AndExpr> )*
+            AndExpr() ( <OR> AndExpr() )*
     }
 
     void AndExpr() :
     {
     }
     {
-            EqualityExpr() ( <AND> <EqualityExpr> )*
+            EqualityExpr() ( <AND> EqualityExpr() )*
     }
 
     void EqualityExpr() :
@@ -374,7 +376,4 @@ public class Switch {
     {
         <DIGIT> ( <DIGIT> )*
     }
-    
-}
 
-PARSER_END(Switch)
