@@ -30,7 +30,7 @@ PARSER_BEGIN(Switch)
 import java.io.PrintStream ;
 
 public class Switch {
-
+    
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
         while (true) {
@@ -48,8 +48,21 @@ public class Switch {
 }
 PARSER_END(Switch)
 
+TOKEN : { < WHILE : "while" > }
+TOKEN : { < IF : "if" > }
+TOKEN : { < ELSE : "else" > }
+
+TOKEN : { < SWITCH : "switch" > }
+TOKEN : { < CASE: "case" > }
+TOKEN : { < COLON : ":" > }
+TOKEN : { < DEFLT: "default" > }
+TOKEN : { < BREAK: "break" > }
+
+TOKEN : { < INT: "int" > }
+TOKEN : { < VOID: "void" > }
+
 SKIP  : {" " | "\t" }
-TOKEN : { < EOL : "\n" | "\r" | "\r\n" > }
+SKIP : { < EOL : "\n" | "\r" | "\r\n" > }
 TOKEN : { < #LETTER : ["a"-"z","A"-"Z","_"] > }
 TOKEN : { <IDENT : <LETTER> ( <LETTER> | <DIGIT>)* >}
 TOKEN : { < #DIGIT : ["0"-"9"] > }
@@ -65,19 +78,6 @@ TOKEN : { < OPAR : "(" > }
 TOKEN : { < CPAR : ")" > }
 TOKEN : { < OBRA : "{" > }
 TOKEN : { < CBRA : "}" > }
-
-TOKEN : { < WHILE : "while" > }
-TOKEN : { < IF : "if" > }
-TOKEN : { < ELSE : "else" > }
-
-TOKEN : { < SWITCH : "switch" > }
-TOKEN : { < CASE: "case" > }
-TOKEN : { < COLON : ":" > }
-TOKEN : { < DEFLT: "default" > }
-TOKEN : { < BREAK: "break" > }
-
-TOKEN : { < INT: "int" > }
-TOKEN : { < VOID: "void" > }
 
 TOKEN : { < EQU : "==" > }
 TOKEN : { < LEQU : "<=" > }
@@ -96,24 +96,33 @@ TOKEN : { < SEMICOL : ";" > }
 
     void Program() :
     {
-        String string;
+       // String string;
         
     }
     {   
-        (string = Number() | string = Ident())+ 
-        {
-            System.out.println(string);
-        }<EOL>
+        (VariableDeclaration())* 
+            ProcedureDeclaration() 
+        (ProcedureDeclaration())*
+        <EOF>
     }
 
     void ProcedureDeclaration() :
     {
-        
-        
     }
     {
-        <VOID> ProcedureHeading() <OBRA> ProcedureBody() <CBRA>
+        Void() ProcedureHeading() Obra() ProcedureBody() Cbra()
         
+    }
+
+    void Void():
+    {
+        Token t_void;
+    }
+    {
+        t_void = <VOID>
+        {
+            System.out.println("Void");
+        }
     }
 
     void ProcedureBody() :
@@ -132,7 +141,7 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        Ident() <OPAR> (Parameter())? <CPAR>
+        Ident() Opar() (Parameter())? Cpar()
         
     }
 
@@ -142,7 +151,7 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        Parameter() ( <COMMA> Parameter())*
+        Parameter() ( Comma() Parameter())*
         
     }
 
@@ -152,7 +161,7 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        <INT> Ident()
+        Type() Ident()
         
     }
 
@@ -162,17 +171,28 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        <INT> IdentList() <SEMICOL>
+        Type() IdentList() SemiCol()
         
     }
     
+    void Type():
+    {
+        Token t_type;
+    }
+    {
+         t_type = <INT>
+         {
+            System.out.println("Type");
+         }
+    }
+
     void IdentList() : 
     {
         
         
     }
     {
-        Ident() ( Assignment() )? ( <COMMA> IdentList() )?
+        Ident() ( Assignment() )? ( Comma() IdentList() )?
         
     }
 
@@ -203,7 +223,7 @@ TOKEN : { < SEMICOL : ";" > }
     }
     {
         ( ( Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
-        SelectionStatement() ) <SEMICOL> (<SEMICOL>)*) 
+        SelectionStatement() ) SemiCol() (SemiCol())*) 
         
     }
 
@@ -213,8 +233,19 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        <WHILE> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
+        While() Opar() Expression() Cpar() Obra() LoopStatementSequence() Cbra()
         
+    }
+
+    void While():
+    {
+        Token t_while;
+    }
+    {
+         t_while = <WHILE>
+         {
+            System.out.println("While");
+         }
     }
 
     void SelectionStatement() :
@@ -233,32 +264,145 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        <SWITCH> <OPAR> Expression() <CPAR> <OBRA> (LoopStatementSequence())
-        (<CASE> ConstantExpression() <COLON> LoopStatementSequence())+
-        (<DEFLT> <COLON> LoopStatementSequence())? <CBRA>
+        Switch() Opar() Expression() Cpar() Obra() 
+        (
+            LoopStatementSequence()
+        )
+        (
+            Case() ConstantExpression() Colon() LoopStatementSequence()
+        )+
+        (
+            Deflt() Colon() LoopStatementSequence()
+        )? Cbra()
         
     }
     
-    void Break() :
+    void Colon():
     {
-        
-        
+        Token t_colon;
     }
     {
-        <BREAK> <SEMICOL>
-        
+        t_colon = <COLON>
+        {
+            System.out.println(":");
+        }
+    }
+    
+    void Deflt():
+    {
+        Token t_deflt;
+    }
+    {
+        t_deflt = <DEFLT>
+        {
+            System.out.println("Default");
+        }
+    }
+    
+    void Case():
+    {
+        Token t_case;
+    }
+    {
+        t_case = <CASE>
+        {
+            System.out.println("case");
+        }
+    }
+    
+    void Switch():
+    {
+        Token t_switch;
+    }
+    {
+        t_switch = <SWITCH>
+        {
+            System.out.println("switch");
+        }
+    }
+
+
+    void Break() :
+    {
+       Token t_break;
+    }
+    {
+        t_break = <BREAK> 
+        SemiCol()
+        {
+            System.out.println("break");
+        }
+    }
+
+    void SemiCol():
+    {
+        Token t_semicol;
+    }
+    {
+        t_semicol = <SEMICOL>
+        {
+            System.out.println(";");
+        }
     }
 
     void IfStatement() :
     {
-        
-        
     }
     {
-        <IF> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
-        (<ELSE> <OBRA> LoopStatementSequence() (Break())? <CBRA> )?
+        If() Opar() Expression() Cpar() Obra() LoopStatementSequence() Cbra()
+        (
+            Else() Obra() LoopStatementSequence() 
+            (
+                Break()
+            )? Cbra() 
+        )?
         
     }
+    
+    void Cbra() : 
+    {
+        Token t_cbra;
+    }
+    {
+        t_cbra = <CBRA>
+        {
+            System.out.println("}");
+        }
+    }    
+    
+    void Obra() : 
+    {
+        Token t_obra;
+    }
+    {
+        t_obra = <OBRA>
+        {
+            System.out.println("{");
+        }
+    }    
+    
+    void Else() : 
+    {
+        Token t_else;
+    }
+    {
+        t_else = <ELSE>
+        {
+            System.out.println("else");
+        }
+    }    
+    
+    void If() : 
+    {
+        Token t_if;
+    }
+    {
+        t_if = <IF>
+        {
+            System.out.println("if");
+        }
+    }    
+
 
     void ProcedureCall() :
     {
@@ -266,30 +410,57 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        <OPAR> (ExpList())? <CPAR>
+        Opar() 
+        (
+            ExpList()
+        )? 
+        Cpar()
         
     }
 
     void ExpList() :
-    {
-        
-        
+    {   
     }
     {
-        Expression() (<COMMA> Expression())*
+        Expression() 
+        ( 
+            Comma() Expression()
+        )*
         
     }
+
+    void Comma() :
+    {
+        Token t_comma;
+    }
+    {
+        t_comma = <COMMA>
+        {
+            System.out.println(",");
+        }    
+    }
+    
+
 
     void Assignment() :
-    {
-        
-        
+    {   
     }
     {
-        <EQU> Expression()
+        Assign() Expression()
         
     }
 
+    void Assign() :
+    {
+        Token t_assign;
+    }
+    {
+        t_assign = <ASSIGN>
+        {
+            System.out.println("=");
+        }    
+    }
+        
     void ConstantExpression() :
     {
         
@@ -302,22 +473,23 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantOrExpr() :
     {
-        
-        
     }
     {
-        ConstantAndExpr() (<OR> ConstantAndExpr())?
+        ConstantAndExpr() 
+        (
+            Or() ConstantAndExpr()
+        )?
         
     }
 
     void ConstantAndExpr() :
     {
-        
-        
     }
     {
-        ConstantEqualityExpr() ( <AND> ConstantEqualityExpr() )*
-        
+        ConstantEqualityExpr() 
+        ( 
+            And() ConstantEqualityExpr()
+        )*
     }
 
     void ConstantEqualityExpr() :
@@ -326,7 +498,15 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        ConstantInequationExpr() ( ( <EQU> | <NEQU> ) ConstantInequationExpr() )?
+        ConstantInequationExpr() 
+        ( 
+            ( 
+                Equ() 
+                | 
+                Nequ() 
+            ) 
+            ConstantInequationExpr()
+         )?
         
     }
 
@@ -336,7 +516,19 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        ConstantSimpleExpr() ( (<LESS> | <LEQU> | <GREAT> | <GEQU>) ConstantSimpleExpr() )?
+        ConstantSimpleExpr() 
+        ( 
+            (
+                Less() 
+                | 
+                Lequ() 
+                | 
+                Great()
+                | 
+                Gequ()
+            ) 
+            ConstantSimpleExpr() 
+        )?
         
     }
 
@@ -346,7 +538,16 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        (<PLUS>)? ConstantTerm() ( (<PLUS> | <MINUS>) ConstantTerm() )*
+        (Plus())? 
+        ConstantTerm()
+        ( 
+            (
+                Plus() 
+                | 
+                Minus()
+            ) 
+            ConstantTerm()
+        )*
         
     }
 
@@ -356,17 +557,27 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        ConstantUnary() ( (<TIMES> | <DIV> | <PERCENT>) ConstantUnary() )*
+        ConstantUnary() 
+        ( 
+            (
+                Times() 
+                | 
+                Div()
+                | 
+                Percent()
+            ) 
+        ConstantUnary() 
+        )*
         
     }
 
     void ConstantUnary() :
-    {
-        
-        
+    {      
     }
     {
-        UnaryOperator() ConstantUnary() | ConstantFactor()
+        UnaryOperator() ConstantUnary() 
+        | 
+        ConstantFactor()
         
     }
     
@@ -376,7 +587,9 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        Number() | <OPAR> ConstantExpression() <CPAR>
+        Number() 
+        |
+        Opar() ConstantExpression() Cpar()
         
     }
 
@@ -400,14 +613,36 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
 
+    void Or() : 
+    {
+        Token t_or;
+    }
+    {
+       t_or = <OR>
+       {
+            System.out.println("||");
+       }
+    }
+
     void AndExpr() :
     {
         
         
     }
     {
-        EqualityExpr() ( <AND> EqualityExpr() )*
+        EqualityExpr() ( And() EqualityExpr() )*
         
+    }
+
+    void And() : 
+    {
+        Token t_and;
+    }
+    {
+       t_and = <AND>
+       {
+            System.out.println("&&");
+       }
     }
 
     void EqualityExpr() :
@@ -416,36 +651,194 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        InequationExpr() ( ( <EQU> | <NEQU> ) InequationExpr() )?
-            
+        InequationExpr() 
+        ( 
+            ( 
+                Equ()
+                | 
+                Nequ()
+             ) 
+        InequationExpr() 
+        )?       
+    }
+    
+    void Nequ(): 
+    {
+        Token t_nequ;
+    }
+    {
+        t_nequ = <NEQU>
+        {
+            System.out.println("!=");
+        }
+    }
+    
+    void Equ(): 
+    {
+        Token t_equ;
+    }
+    {
+        t_equ = <EQU>
+        {
+            System.out.println("==");
+        }
     }
 
     void InequationExpr() :
     {
-        
-        
-        
     }
     {
-       SimpleExpr() ( ( <LESS> | <LEQU> | <GREAT> | <GEQU> ) SimpleExpr() )?
- 
+       SimpleExpr() 
+       ( 
+            ( 
+                <LESS> 
+                | 
+                <LEQU>
+                | 
+                <GREAT>
+                | 
+                <GEQU>
+             ) 
+             SimpleExpr()
+        )?
     }
+
+    void Gequ() : 
+    {
+        Token t_gequ;
+    }
+    {
+        t_gequ = <GEQU>
+        {
+            System.out.println(">=");
+        }
+    }   
+
+    void Great() : 
+    {
+        Token t_great;
+    }
+    {
+        t_great = <GREAT>
+        {
+            System.out.println(">");
+        }
+    }   
+
+    void Lequ() : 
+    {
+        Token t_lequ;
+    }
+    {
+        t_lequ = <LEQU>
+        {
+            System.out.println("<=");
+        }
+    }   
+
+    void Less() : 
+    {
+        Token t_less;
+    }
+    {
+        t_less = <LESS>
+        {
+            System.out.println("<");
+        }
+    }   
 
     void SimpleExpr() :
     {
       
     }
     {
-       ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
+       ( 
+         <PLUS>
+       )? 
+       Term() 
+       ( 
+            (
+                 Plus() 
+                 | 
+                 Minus() 
+            ) 
+            Term()
+       )*
+    }
 
+    void Minus() :
+    {
+        Token t_minus;
+    }
+    {
+        t_minus = <MINUS>
+        {
+            System.out.println("-");
+        }
+    }
+
+    void Plus() :
+    {
+        Token t_plus;
+    }
+    {
+        t_plus = <PLUS>
+        {
+            System.out.println("+");
+        }
     }
 
     void Term() :
     {
     }
     {
-        Unary() ( ( <TIMES> | <DIV> | <PERCENT> ) Unary() )*
-            
+        Unary() 
+        ( 
+           ( 
+             Times() 
+             |
+             Div() 
+             | 
+             Percent() 
+            ) 
+            Unary() 
+        )*
+    }
+
+    void Percent() :
+    {
+        String percent_;
+        Token t_percent;
+    }
+    {
+        t_percent = <PERCENT>
+        {
+            System.out.println("%");
+        }
+    }
+
+    void Times() :
+    {
+        String times_;
+        Token t_times;
+    }
+    {
+        t_times = <TIMES>
+        {
+            System.out.println("*");
+        }
+    }
+
+    void Div() :
+    {
+        String div_;
+        Token t_div;
+    }
+    {
+        t_div = <DIV>
+        {
+            System.out.println("/");
+        }
     }
 
     void Unary() :
@@ -453,42 +846,87 @@ TOKEN : { < SEMICOL : ";" > }
         
     }
     {
-        UnaryOperator() Unary() | Factor()
+        //Ja foi resolvido mais abaixo    
+        UnaryOperator() Unary() 
+        |
+        Factor()
         
     }
 
     void Factor() :
     {
+
     }
     {
-        Ident() | Number() | <OPAR> Expression() <CPAR>
-       
+        Ident()  //Já foi resolvido mais abaixo
+        | 
+        Number() //Já foi resolvido mais abaixo
+        | 
+        Opar() Expression() Cpar() //Já foi resolvido, falta Expression
+    }
+    
+    void Opar() : 
+    {
+        String opar_;
+        Token t_opar;
+    }
+    {
+        t_opar = <OPAR>
+        {
+            System.out.println("(");
+        }
+    }
+    
+    void Cpar() : 
+    {
+        String cpar_;
+        Token t_cpar;
+    }
+    {
+        t_cpar = <CPAR>
+        {
+            System.out.println(")");
+        }
     }
 
     void UnaryOperator() :
     {
+        String unary_ = null ;
+        Token t_not = null;
+        Token t_minus = null;
     }
     {
-        <NOT> | <MINUS>
-        
+        t_not = <NOT>
+        {
+           unary_ = t_not.image;
+           
+           System.out.println("!");  
+           
+        } 
+        | t_minus = <MINUS>
+        {
+            unary_ = t_minus.image;
+            
+            System.out.println("-");
+        }
     }
 
-    String Ident() :
+    void Ident() :
     {
         String ident_;
-        Token t_ident;
+        Token t_ident;    
     }
     {
-        
-
         t_ident = <IDENT>    
         {  
             ident_ = t_ident.image;
-            return ident_;
+            //falta fazer comparação com os identificadores
+            //da linguagem int, switch, etc
+            System.out.println("Ident");
         }
     }
     
-    String Number() : 
+    void Number() : 
     {
         Integer number_;
         Token t_number;
@@ -503,7 +941,7 @@ TOKEN : { < SEMICOL : ";" > }
                 if( number_ > Integer.MAX_VALUE )
                    throw new NumberFormatException(); 
 
-                return s_number;    
+                System.out.println("Number");    
             }
             catch(NumberFormatException n){
                 System.out.println("Erro de estouro de tamanho de inteiro" + " "
