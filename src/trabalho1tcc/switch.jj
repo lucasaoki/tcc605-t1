@@ -29,7 +29,6 @@ SKIP  : {" " | "\t" }
 TOKEN : { < EOL : "\n" | "\r" | "\r\n" > }
 TOKEN : { < #LETTER : [”a”-”z”,”A”-”Z”,"_"] > }
 TOKEN : { < #DIGIT : (["0"-"9"])+ > }
-TOKEN : { < NUMBER : <DIGIT> > }
 
 TOKEN : { < PLUS : "+" > }
 TOKEN : { < MINUS : "-" > }
@@ -116,27 +115,196 @@ public class Switch {
     {
     }
     {
-        Ident <OPAR> (Parameter)? <CPAR>
+        Ident() <OPAR> (Parameter)? <CPAR>
     }
 
     void ParametersList() :
     {
     }
     {
-        Parameter (<COMMA> Parameter)*
+        Parameter() ( <COMMA> Parameter())*
     }
 
     void Parameter() :
     {
     }
     {
-        <INT> Ident
+        <INT> Ident()
     }
 
     void VariableDeclaration() :
-        {}
-        {}
+    {
+    }
+    {
+        <INT> IdentList() <SEMICOL>
+    }
+    
+    void IdentList() : 
+    {
+    }
+    {
+        Ident() ( Assignment() )? ( <COMMA> IdentList() )*
+    }
 
+    void StatmentSequence() : 
+    {
+    }
+    {
+        ( Statement() )*
+    }
+    
+    void LoopStatementSequence() : 
+    {
+    }
+    {
+        ( Statement() | Break() )*
+    }
+
+    void Statement() :
+    {
+    }
+    {
+        ( (Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
+        SelectionStatement() ) <SEMICOL> (<SEMICOL>)* )?
+    }
+
+    void WhileStatement() :
+    {
+    }
+    {
+        <WHILE> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence <CBRA>
+    }
+
+    void SelectionStatement() :
+    {
+    }
+    {
+        IfStatement() | SwitchStatement()
+    }
+
+    void SwitchStatement() :
+    {
+    }
+    {
+        <SWITCH> <OPAR> Expression() <CPAR> <OBRA> (LoopStatementSequence())*
+        (<CASE> ConstantExpression() <COLON> LoopStatementSequence())* 
+        (<DEFAULT> <COLON> LoopStatementSequence())? <CBRA>
+    }
+    
+    void Break() :
+    {
+    }
+    {
+        <BREAK> <SEMICOL>
+    }
+
+    void IfStatement() :
+    {
+    }
+    {
+        <IF> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
+        (<ELSE> <OBRA> LoopStatementSequence() (Break())? <CBRA> )?
+    }
+
+    void ProcedureCall() :
+    {
+    }
+    {
+        <OPAR> (ExpList())? <CPAR>
+    }
+
+    void ExpList() :
+    {
+    }
+    {
+        Expression() (<COMMA> Expression())*
+    }
+
+    void Assignment() :
+    {
+    }
+    {
+        <EQU> Expression()
+    }
+
+    void ConstantExpression() :
+    {
+    }
+    {
+        ConstantOrExpr()
+    }
+
+    void ConstantOrExpr() :
+    {
+    }
+    {
+        ConstantAnd() (<OR> ConstantAndExpr())?
+    }
+
+    void ConstantAndExpr() :
+    {
+    }
+    {
+        ConstantEqualityExpr() ( <AND> ConstantEqualityExpr() )*
+    }
+
+    void ConstantEqualityExpr() :
+    {
+    }
+    {
+        InequationExpr ( (<EQU> | <NEQU>) InequationExpr() )?
+    }
+
+    void ConstantInequationExpr()
+    {
+    }
+    {
+        ConstantSimpleExpr() ( (<LESS> | <LEQU> | <GREAT> | <GEQU>) 
+        ConstantSimpleExpr() )?
+    }
+
+    void ConstantSimpleExpr() :
+    {
+    }
+    {
+        (<PLUS>)? ConstantTerm() ( (<PLUS> | <MINUS>) ConstantTerm() )*
+    }
+
+    void ConstantTerm() :
+    {
+    }
+    {
+        ConstantUnary() ( (<*> | </> | <%>) ConstantUnary() )*
+    }
+
+    void ConstantUnary() :
+    {
+    }
+    {
+        UnaryOperator() ConstantUnary() | ConstantFactor()
+    }
+    
+    void ConstantFactor() : 
+    {
+    }
+    {
+        ( Number() | <OPAR> ConstantExpression() <CPAR> )
+    }
+
+    void Ident() :
+    {
+    }
+    {
+        <LETTER> ( <LETTER> | <DIGIT> )*
+    }
+    
+    void Number() :
+    {
+    }
+    {
+        <DIGIT> ( <DIGIT> )*
+    }
+    
 }
 
 PARSER_END(Switch)
