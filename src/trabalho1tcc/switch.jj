@@ -92,14 +92,19 @@ TOKEN : { < SEMICOL : ";" > }
 
     void Program() :
     {
+        String string;
+        Token t;
     }
     {   
         ( VariableDeclaration() )* ProcedureDeclaration() 
         ( ProcedureDeclaration() )*
+        <EOF>
     }
 
     void ProcedureDeclaration() :
     {
+        String string;
+        Token t;
     }
     {
         <VOID> ProcedureHeading() <OBRA> ProcedureBody() <CBRA>
@@ -107,7 +112,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ProcedureBody() :
     {
-            int value;
+        String string;
+        Token t;
     }
     {
         (VariableDeclaration())* StatementSequence()
@@ -115,6 +121,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ProcedureHeading() :
     {
+        String string;
+        Token t;
     }
     {
         Ident() <OPAR> (Parameter())? <CPAR>
@@ -122,6 +130,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ParametersList() :
     {
+        String string;
+        Token t;
     }
     {
         Parameter() ( <COMMA> Parameter())*
@@ -129,6 +139,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void Parameter() :
     {
+        String string;
+        Token t;
     }
     {
         <INT> Ident()
@@ -136,6 +148,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void VariableDeclaration() :
     {
+        String string;
+        Token t;
     }
     {
         <INT> IdentList() <SEMICOL>
@@ -143,6 +157,8 @@ TOKEN : { < SEMICOL : ";" > }
     
     void IdentList() : 
     {
+        String string;
+        Token t;
     }
     {
         Ident() ( Assignment() )? ( <COMMA> IdentList() )*
@@ -150,6 +166,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void StatementSequence() : 
     {
+        String string;
+        Token t;
     }
     {
         ( Statement() )*
@@ -157,6 +175,8 @@ TOKEN : { < SEMICOL : ";" > }
     
     void LoopStatementSequence() : 
     {
+        String string;
+        Token t;
     }
     {
         ( Statement() | Break() )*
@@ -164,6 +184,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void Statement() :
     {
+        String string;
+        Token t;
     }
     {
         ( (Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
@@ -172,6 +194,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void WhileStatement() :
     {
+        String string;
+        Token t;
     }
     {
         <WHILE> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
@@ -179,6 +203,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void SelectionStatement() :
     {
+        String string;
+        Token t;
     }
     {
         IfStatement() | SwitchStatement()
@@ -186,6 +212,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void SwitchStatement() :
     {
+        String string;
+        Token t;
     }
     {
         <SWITCH> <OPAR> Expression() <CPAR> <OBRA> (LoopStatementSequence())*
@@ -195,6 +223,8 @@ TOKEN : { < SEMICOL : ";" > }
     
     void Break() :
     {
+        String string;
+        Token t;
     }
     {
         <BREAK> <SEMICOL>
@@ -202,6 +232,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void IfStatement() :
     {
+        String string;
+        Token t;
     }
     {
         <IF> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
@@ -210,6 +242,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ProcedureCall() :
     {
+        String string;
+        Token t;
     }
     {
         <OPAR> (ExpList())? <CPAR>
@@ -217,6 +251,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ExpList() :
     {
+        String string;
+        Token t;
     }
     {
         Expression() (<COMMA> Expression())*
@@ -224,6 +260,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void Assignment() :
     {
+        String string;
+        Token t;
     }
     {
         <EQU> Expression()
@@ -231,6 +269,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantExpression() :
     {
+        String string;
+        Token t;
     }
     {
         ConstantOrExpr()
@@ -238,6 +278,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantOrExpr() :
     {
+        String string;
+        Token t;
     }
     {
         ConstantAndExpr() (<OR> ConstantAndExpr())?
@@ -245,6 +287,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantAndExpr() :
     {
+        String string;
+        Token t;
     }
     {
         ConstantEqualityExpr() ( <AND> ConstantEqualityExpr() )*
@@ -252,6 +296,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantEqualityExpr() :
     {
+        String string;
+        Token t;
     }
     {
         ConstantInequationExpr() ( ( <EQU> | <NEQU> ) ConstantInequationExpr() )?
@@ -259,6 +305,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantInequationExpr() :
     {
+        String string;
+        Token t;
     }
     {
         ConstantSimpleExpr() ( (<LESS> | <LEQU> | <GREAT> | <GEQU>) 
@@ -267,6 +315,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantSimpleExpr() :
     {
+        String string;
+        Token t;
     }
     {
         (<PLUS>)? ConstantTerm() ( (<PLUS> | <MINUS>) ConstantTerm() )*
@@ -274,6 +324,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantTerm() :
     {
+        String string;
+        Token t;
     }
     {
         ConstantUnary() ( (<TIMES> | <DIV> | <PERCENT>) ConstantUnary() )*
@@ -281,6 +333,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void ConstantUnary() :
     {
+        String string;
+        Token t;
     }
     {
         UnaryOperator() ConstantUnary() | ConstantFactor()
@@ -288,6 +342,8 @@ TOKEN : { < SEMICOL : ";" > }
     
     void ConstantFactor() : 
     {
+        String string;
+        Token t;
     }
     {
         Number() | <OPAR> ConstantExpression() <CPAR>
@@ -295,6 +351,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void Expression() :
     {
+        String string;
+        Token t;
     }
     {
             OrExpr()	
@@ -302,6 +360,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void OrExpr() :
     {
+        String string;
+        Token t;
     }
     {
             AndExpr() ( <OR> AndExpr() )*
@@ -309,6 +369,8 @@ TOKEN : { < SEMICOL : ";" > }
 
     void AndExpr() :
     {
+        String string;
+        Token t;
     }
     {
             EqualityExpr() ( <AND> EqualityExpr() )*
@@ -316,64 +378,132 @@ TOKEN : { < SEMICOL : ";" > }
 
     void EqualityExpr() :
     {
+        String string;
+        Token t;
     }
     {
-            InequationExpr() ( ( <EQU> | <NEQU> ) InequationExpr() )?
-    }
-
-    void InequationExpr() :
-    {
-    }
-    {
-            SimpleExpr() ( ( <LESS> | <LEQU> | <GREAT> | <GEQU> ) SimpleExpr() )?
-    }
-
-    void SimpleExpr() :
-    {
-    }
-    {
-            ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
+            t = InequationExpr() ( ( <EQU> | <NEQU> ) InequationExpr() )?
+            {
+                string = t.image;
+                return string;
+            }    
     }
 
-    void Term() :
+    String InequationExpr() :
     {
+        String string;
+        Token t;
+        
     }
     {
-            Unary() ( ( <TIMES> | <DIV> | <PERCENT> ) Unary() )*
-    }
-
-    void Unary() :
-    {
-    }
-    {
-            UnaryOperator() Unary() | Factor()
-    }
-
-    void Factor() :
-    {
-    }
-    {
-            Ident() | Number() | <OPAR> Expression() <CPAR>
+           t = SimpleExpr() ( ( <LESS> | <LEQU> | <GREAT> | <GEQU> ) SimpleExpr() )?
+           {
+                string = t.image;
+                return string;
+           }
+ 
     }
 
-    void UnaryOperator() :
+    String SimpleExpr() :
     {
+        String simpleExp_;
+        Token  t_simpleExp;
     }
     {
-            <NOT> | <MINUS>
+            t_simpleExp = ( <PLUS> )? Term() ( ( <PLUS> | <MINUS> ) Term() )*
+            {
+                simpleExp_ = t_simpleExp.image;
+                return simpleExp_;
+            }
     }
 
-    void Ident() :
+    String Term() :
     {
+        String term_;
+        Token t_term;
     }
     {
-        <LETTER> ( <LETTER> | <DIGIT> )*
+            t_term = Unary() ( ( <TIMES> | <DIV> | <PERCENT> ) Unary() )*
+            {
+                term_ = t_term.image;
+                return term_;
+            }    
+    }
+
+    String Unary() :
+    {
+        String unary_;
+        Token t_unary;
+    }
+    {
+            t_unary = UnaryOperator() Unary() | Factor()
+            {
+                unary_ = t_unary;
+                return unary_;
+            }
+    }
+
+    String Factor() :
+    {
+        String factor_;
+        Token t_factor;
+    }
+    {
+            t_factor = Ident() | Number() | <OPAR> Expression() <CPAR>
+            {
+                factor_ = t_factor.image;
+                return factor_;
+            }    
+    }
+
+    String UnaryOperator() :
+    {
+        String unary_;
+        Token t_unary;
+    }
+    {
+            t_unary = <NOT> | <MINUS>
+            {
+                unary_ = t.image;
+                return unary_;
+            }
+    }
+
+    String Ident() :
+    {
+        String ident_;
+        Token t_ident;
+    }
+    {
+        
+
+        t_ident = <LETTER> ( <LETTER> | <DIGIT> )*
+        {  
+            ident_ = t_ident.image;
+            return ident_;
+        }
     }
     
-    void Number() :
+    String Number() : 
     {
+        Integer number_;
+        Token t_number;
+        String s_number;
     }
     {
-        <DIGIT> ( <DIGIT> )*
+        t_number = <DIGIT> ( <DIGIT> )*
+        {
+            try{
+                s_number = t_number.image;
+                number_ = Integer.parseInt(s_number);
+                if( number > 2147483648 )
+                   throw new NumberFormatException(); 
+
+                return s_number;    
+            }
+            catch(NumberFormatException n){
+                System.out.println("JACA");
+            } 
+        }
     }
 
