@@ -95,7 +95,7 @@ TOKEN : { < SEMICOL : ";" > }
     void Program() :
     {
         String string;
-        Token t;
+        
     }
     {   
         string = Number()
@@ -105,429 +105,332 @@ TOKEN : { < SEMICOL : ";" > }
 
     }
 
-    String ProcedureDeclaration() :
+    void ProcedureDeclaration() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         <VOID> ProcedureHeading() <OBRA> ProcedureBody() <CBRA>
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ProcedureBody() :
+    void ProcedureBody() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         (VariableDeclaration())* StatementSequence()
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ProcedureHeading() :
+    void ProcedureHeading() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         Ident() <OPAR> (Parameter())? <CPAR>
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ParametersList() :
+    void ParametersList() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         Parameter() ( <COMMA> Parameter())*
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String Parameter() :
+    void Parameter() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         <INT> Ident()
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String VariableDeclaration() :
+    void VariableDeclaration() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         <INT> IdentList() <SEMICOL>
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
     
-    String IdentList() : 
+    void IdentList() : 
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         Ident() ( Assignment() )? ( <COMMA> IdentList() )?
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String StatementSequence() : 
+    void StatementSequence() : 
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         ( Statement() )*
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
     
-    String LoopStatementSequence() : 
+    void LoopStatementSequence() : 
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         ( Statement() | Break() )
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String Statement() :
+    void Statement() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         ( (Ident() (Assignment() | ProcedureCall() ) | WhileStatement() | 
         SelectionStatement() ) <SEMICOL> (<SEMICOL>)*) 
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String WhileStatement() :
+    void WhileStatement() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         <WHILE> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String SelectionStatement() :
+    void SelectionStatement() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         IfStatement() | SwitchStatement()
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String SwitchStatement() :
+    void SwitchStatement() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         <SWITCH> <OPAR> Expression() <CPAR> <OBRA> (LoopStatementSequence())
         (<CASE> ConstantExpression() <COLON> LoopStatementSequence())+
         (<DEFLT> <COLON> LoopStatementSequence())? <CBRA>
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
     
-    String Break() :
+    void Break() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         <BREAK> <SEMICOL>
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String IfStatement() :
+    void IfStatement() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         <IF> <OPAR> Expression() <CPAR> <OBRA> LoopStatementSequence() <CBRA>
         (<ELSE> <OBRA> LoopStatementSequence() (Break())? <CBRA> )?
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ProcedureCall() :
+    void ProcedureCall() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         <OPAR> (ExpList())? <CPAR>
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ExpList() :
+    void ExpList() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         Expression() (<COMMA> Expression())*
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String Assignment() :
+    void Assignment() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         <EQU> Expression()
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ConstantExpression() :
+    void ConstantExpression() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         ConstantOrExpr()
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ConstantOrExpr() :
+    void ConstantOrExpr() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         ConstantAndExpr() (<OR> ConstantAndExpr())?
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ConstantAndExpr() :
+    void ConstantAndExpr() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         ConstantEqualityExpr() ( <AND> ConstantEqualityExpr() )*
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ConstantEqualityExpr() :
+    void ConstantEqualityExpr() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         ConstantInequationExpr() ( ( <EQU> | <NEQU> ) ConstantInequationExpr() )?
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ConstantInequationExpr() :
+    void ConstantInequationExpr() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         ConstantSimpleExpr() ( (<LESS> | <LEQU> | <GREAT> | <GEQU>) ConstantSimpleExpr() )?
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ConstantSimpleExpr() :
+    void ConstantSimpleExpr() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         (<PLUS>)? ConstantTerm() ( (<PLUS> | <MINUS>) ConstantTerm() )*
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ConstantTerm() :
+    void ConstantTerm() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         ConstantUnary() ( (<TIMES> | <DIV> | <PERCENT>) ConstantUnary() )*
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String ConstantUnary() :
+    void ConstantUnary() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         UnaryOperator() ConstantUnary() | ConstantFactor()
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
     
-    String ConstantFactor() : 
+    void ConstantFactor() : 
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         Number() | <OPAR> ConstantExpression() <CPAR>
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String Expression() :
+    void Expression() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         OrExpr()	
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String OrExpr() :
+    void OrExpr() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         AndExpr() ( <OR> AndExpr() )*
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String AndExpr() :
+    void AndExpr() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         EqualityExpr() ( <AND> EqualityExpr() )*
-        {
-            string = t.image;
-            return string;
-        }
+        
     }
 
-    String EqualityExpr() :
+    void EqualityExpr() :
     {
-        String string;
-        Token t;
+        
+        
     }
     {
         InequationExpr() ( ( <EQU> | <NEQU> ) InequationExpr() )?
-        {
-            string = t.image;
-            return string;
-        }    
+            
     }
 
-    String InequationExpr() :
+    void InequationExpr() :
     {
-        String string;
-        Token t;
+        
+        
         
     }
     {
        SimpleExpr() ( ( <LESS> | <LEQU> | <GREAT> | <GEQU> ) SimpleExpr() )?
-       {
-            string = t.image;
-            return string;
-       }
  
     }
 
-    String SimpleExpr() :
+    void SimpleExpr() :
     {
         String simpleExp_;
         Token  t_simpleExp;
@@ -540,7 +443,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    String Term() :
+    void Term() :
     {
         String term_;
         Token t_term;
@@ -553,7 +456,7 @@ TOKEN : { < SEMICOL : ";" > }
         }    
     }
 
-    String Unary() :
+    void Unary() :
     {
         String unary_;
         Token t_unary;
@@ -566,7 +469,7 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
 
-    String Factor() :
+    void Factor() :
     {
         String factor_;
         Token t_factor;
@@ -579,7 +482,7 @@ TOKEN : { < SEMICOL : ";" > }
         }    
     }
 
-    String UnaryOperator() :
+    void UnaryOperator() :
     {
         String unary_;
         Token t_unary;
