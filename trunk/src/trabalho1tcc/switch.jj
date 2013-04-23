@@ -659,6 +659,9 @@ TOKEN : { < SEMICOL : ";" > }
     {
     }
     {
+        (
+            VariableDeclaration()
+        )*
         StatementSequence()
     }
 
@@ -702,9 +705,6 @@ TOKEN : { < SEMICOL : ";" > }
     {
     }
     {
-        (
-            VariableDeclaration()
-        )*
         (
             Statement()
         )*    
