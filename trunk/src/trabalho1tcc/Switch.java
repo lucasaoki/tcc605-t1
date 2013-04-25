@@ -26,19 +26,40 @@ public class Switch implements SwitchConstants {
 
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
-        while (true) {
-            try {
-                //parser.Parte2Trabalho1();
-                parser.Program();
-                System.exit(0);
-            }   catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                    System.exit(-1);
-                }   catch (TokenMgrError e) {
-                        System.out.println(e.getMessage());
-                        System.exit(-1);
-                    }
+
+        if( args.length < 1 ){
+
+            System.out.println("Voc\u00ea n\u00e3o passou o argumento para o programa tsc tsc");
+            System.out.println("Voc\u00ea possui duas escolhas: ");
+            System.out.println("1 - L\u00e9xico");
+            System.out.println("2 - L\u00e9xico com Sint\u00e1tico");
+
+            System.exit(-1);
         }
+        int opcao = Integer.parseInt(args[0]);
+
+        try {
+            switch( opcao ){
+
+                case 1:
+                        parser.Parte2Trabalho1();
+                        break;
+                case 2:
+                        parser.Program();
+                        break;
+                default:
+                        System.out.println("Voc\u00ea s\u00f3  possui duas escolhas: ");
+                        System.out.println("1 - L\u00e9xico");
+                        System.out.println("2 - L\u00e9xico com Sint\u00e1tico");
+            }
+        }   catch (ParseException e) {
+                System.out.println(e.getMessage());
+                System.exit(-1);
+        }   catch (TokenMgrError e) {
+                System.out.println(e.getMessage());
+                System.exit(-1);
+        }
+
     }
 
     public static ArrayList<String>  allInformation = new ArrayList<String>();

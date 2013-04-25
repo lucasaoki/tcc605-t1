@@ -54,19 +54,40 @@ public class Switch {
 
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
-        while (true) {
-            try {
-                //parser.Parte2Trabalho1();
-                parser.Program();    
-                System.exit(0);
-            }   catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                    System.exit(-1);
-                }   catch (TokenMsgError e) {
-                        System.out.println(e.getMessage());
-                        System.exit(-1);
-                    }
+     
+        if( args.length < 1 ){
+
+            System.out.println("Você não passou o argumento para o programa tsc tsc");
+            System.out.println("Você possui duas escolhas: ");
+            System.out.println("1 - Léxico");
+            System.out.println("2 - Léxico com Sintático");
+
+            System.exit(-1);
         }
+        int opcao = Integer.parseInt(args[0]);
+
+        try {
+            switch( opcao ){
+
+                case 1:
+                        parser.Parte2Trabalho1();
+                        break;
+                case 2:
+                        parser.Program();   
+                        break;
+                default:
+                        System.out.println("Você só  possui duas escolhas: ");
+                        System.out.println("1 - Léxico");
+                        System.out.println("2 - Léxico com Sintático");
+            }
+        }   catch (ParseException e) {
+                System.out.println(e.getMessage());
+                System.exit(-1);
+        }   catch (TokenMsgError e) {
+                System.out.println(e.getMessage());
+                System.exit(-1);
+        }
+        
     }
 
     public static ArrayList<String>  allInformation = new ArrayList<String>();
