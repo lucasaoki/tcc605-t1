@@ -351,10 +351,10 @@ TOKEN : { < SEMICOL : ";" > }
     }
     {
         t_break = <BREAK> 
-        SemiCol()
         {
             SaveLexicalInformation(t_break,"BREAK");
         }
+        SemiCol()
     }
 
     void SemiCol():
