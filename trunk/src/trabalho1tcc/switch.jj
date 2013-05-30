@@ -33,13 +33,19 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Switch {
-   
+
+    public static ArrayList<String>  allInformation = new ArrayList<String>();
+    public static Set<String>  procedureInformation = new TreeSet<String>();
+    public static Set<String>  variableDeclarationInformation = 
+                                new TreeSet<String>();
+
+    
     public static void SaveLexicalInformation(Token t,String Vn){
         
         String string = ( "@(" + t.beginLine + "," + t.beginColumn + ")\t"
                  + Vn + "\t-\t" + t.image );
 
-        System.out.println(string);
+        //System.out.println(string);
         
         boolean add = allInformation.add(string);            
     }
@@ -48,16 +54,16 @@ public class Switch {
         Iterator it = allInformation.iterator();
 
         while( it.hasNext() ){
-            System.out.println(it.next());
+            //System.out.println(it.next());
         }
     }
-
+   
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
      
         if( args.length < 1 ){
 
-            System.out.println("Você não passou o argumento para o programa tsc tsc");
+            System.out.println("Você não passou argumentos para o programa");
             System.out.println("Você possui duas escolhas: ");
             System.out.println("1 - Léxico");
             System.out.println("2 - Léxico com Sintático");
@@ -70,7 +76,7 @@ public class Switch {
             switch( opcao ){
 
                 case 1:
-                        parser.Parte2Trabalho1();
+                        parser.Trabalho2();
                         break;
                 case 2:
                         parser.Program();   
@@ -87,12 +93,10 @@ public class Switch {
                 System.out.println(e.getMessage());
                 System.exit(-1);
         }
-        
-    }
 
-    public static ArrayList<String>  allInformation = new ArrayList<String>();
-    public static Set<String>  procedureInformation = new TreeSet<String>();
-    public static Set<String>  variableDeclarationInformation = new TreeSet<String>();
+        System.out.println("SUCESSO");
+
+    }
 }
 
 PARSER_END(Switch)
@@ -179,7 +183,7 @@ TOKEN : { < ASSIGN : "=" > }
 TOKEN : { < COMMA : "," > }
 TOKEN : { < SEMICOL : ";" > }
 
-    void Parte2Trabalho1() :
+    void Trabalho2() :
     {
     }
     {
@@ -807,9 +811,7 @@ TOKEN : { < SEMICOL : ";" > }
     }
     
     void ProcedureCall() :
-    {
-        
-        
+    {   
     }
     {
         Opar() 
@@ -904,9 +906,7 @@ TOKEN : { < SEMICOL : ";" > }
     }
 
     void ConstantSimpleExpr() :
-    {
-        
-        
+    {                
     }
     {
         (Plus())? 
@@ -923,9 +923,7 @@ TOKEN : { < SEMICOL : ";" > }
     }
 
     void ConstantTerm() :
-    {
-        
-        
+    {   
     }
     {
         ConstantUnary() 
@@ -1022,8 +1020,7 @@ TOKEN : { < SEMICOL : ";" > }
     }
 
     void SimpleExpr() :
-    {
-      
+    { 
     }
     {
        ( 
@@ -1058,8 +1055,7 @@ TOKEN : { < SEMICOL : ";" > }
     }
 
     void Unary() :
-    {
-        
+    {      
     }
     {
         //Ja foi resolvido mais abaixo    
@@ -1071,7 +1067,6 @@ TOKEN : { < SEMICOL : ";" > }
 
     void Factor() :
     {
-
     }
     {
         Ident()  //Já foi resolvido mais abaixo
