@@ -6,12 +6,18 @@ import java.util.TreeSet;
 
 public class Switch implements SwitchConstants {
 
+    public static ArrayList<String>  allInformation = new ArrayList<String>();
+    public static Set<String>  procedureInformation = new TreeSet<String>();
+    public static Set<String>  variableDeclarationInformation =
+                                new TreeSet<String>();
+
+
     public static void SaveLexicalInformation(Token t,String Vn){
 
         String string = ( "@(" + t.beginLine + "," + t.beginColumn + ")\u005ct"
                  + Vn + "\u005ct-\u005ct" + t.image );
 
-        System.out.println(string);
+        //System.out.println(string);
 
         boolean add = allInformation.add(string);
     }
@@ -20,29 +26,29 @@ public class Switch implements SwitchConstants {
         Iterator it = allInformation.iterator();
 
         while( it.hasNext() ){
-            System.out.println(it.next());
+            //System.out.println(it.next());
         }
     }
 
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
 
-//        if( args.length < 1 ){
-//
-//            System.out.println("Voc\u00ea n\u00e3o passou o argumento para o programa tsc tsc");
-//            System.out.println("Voc\u00ea possui duas escolhas: ");
-//            System.out.println("1 - L\u00e9xico");
-//            System.out.println("2 - L\u00e9xico com Sint\u00e1tico");
-//
-//            System.exit(-1);
-//        }
-        int opcao = Integer.parseInt("2");
+        if( args.length < 1 ){
+
+            System.out.println("Voc\u00ea n\u00e3o passou argumentos para o programa");
+            System.out.println("Voc\u00ea possui duas escolhas: ");
+            System.out.println("1 - L\u00e9xico");
+            System.out.println("2 - L\u00e9xico com Sint\u00e1tico");
+
+            System.exit(-1);
+        }
+        int opcao = Integer.parseInt(args[0]);
 
         try {
             switch( opcao ){
 
                 case 1:
-                        parser.Parte2Trabalho1();
+                        parser.Trabalho2();
                         break;
                 case 2:
                         parser.Program();
@@ -60,13 +66,11 @@ public class Switch implements SwitchConstants {
                 System.exit(-1);
         }
 
+        System.out.println("SUCESSO");
+
     }
 
-    public static ArrayList<String>  allInformation = new ArrayList<String>();
-    public static Set<String>  procedureInformation = new TreeSet<String>();
-    public static Set<String>  variableDeclarationInformation = new TreeSet<String>();
-
-  static final public void Parte2Trabalho1() throws ParseException {
+  static final public void Trabalho2() throws ParseException {
     TokenAnalyser();
     jj_consume_token(0);
             {if (true) return ;}
