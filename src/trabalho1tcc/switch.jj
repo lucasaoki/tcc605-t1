@@ -694,7 +694,7 @@ TOKEN : { < SEMICOL : ";" > }
     {
     }
     {
-        Ident() Opar() (Parameter())? Cpar()  
+        Ident() Opar() ( ParametersList() )? Cpar()  
     }
 
     void ParametersList() :
