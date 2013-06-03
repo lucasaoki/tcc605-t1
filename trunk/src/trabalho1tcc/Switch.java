@@ -506,7 +506,7 @@ public class Switch implements SwitchConstants {
     Opar();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INT:
-      Parameter();
+      ParametersList();
       break;
     default:
       jj_la1[5] = jj_gen;
