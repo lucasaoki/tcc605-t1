@@ -20,21 +20,30 @@ public class TabelaSimbolos implements Constantes {
 
         ArrayList<Descritor> array = new ArrayList<Descritor>();
 
+//-------- 6 primeiros elementos da tabela que são pré-definidos ---------------
         Descritor inteiro = new Descritor("int", nivelCorrent);
         inteiro.setNbytes(BYTES_INT);
+        inteiro.setCategoria("tipo");
 
         Descritor boolean_t = new Descritor("TRUE", nivelCorrent);
         boolean_t.setValor(1);
         boolean_t.setNbytes(BYTES_INT);
+        boolean_t.setCategoria(CONSTANTE);
 
         Descritor boolean_f = new Descritor("FALSE", nivelCorrent);
         boolean_f.setValor(0);
         boolean_f.setNbytes(BYTES_INT);
+        boolean_f.setCategoria(CONSTANTE);
 
         Descritor readlong = new Descritor("readlong", nivelCorrent);
+        readlong.setCategoria("proc");
         Descritor writelong = new Descritor("writelong", nivelCorrent);
+        writelong.setCategoria("proc");
         Descritor writeline = new Descritor("writeline", nivelCorrent);
+        writeline.setCategoria("proc");
+//------------------------------------------------------------------------------
 
+//-------------- adicionando os 6 elementos na TS ------------------------------
         array.add(inteiro);
         array.add(boolean_t);
         array.add(boolean_f);
@@ -42,6 +51,7 @@ public class TabelaSimbolos implements Constantes {
         array.add(readlong);
         array.add(writelong);
         array.add(writeline);
+//------------------------------------------------------------------------------
 
         //posição zero está todos os caras
         // que estão relacionados a nivel zero mesmo !!!
@@ -78,6 +88,11 @@ public class TabelaSimbolos implements Constantes {
         return null;
     }
 
+    /**
+     * @param nivel indica o nível que se encontra o ident
+     * @param ident identificador a ser procurado
+     * @return true se encontrou o ident para aquele nivelcorr; false cc.
+     */
     boolean declarado(String ident, int nivel) {
 
         if (nivel < lista.size()) {
@@ -110,6 +125,9 @@ public class TabelaSimbolos implements Constantes {
         return false;
     }
 
+    /**
+     * aumenta o nivel atual.
+     */
     public void addNivelCorrente() {
         ArrayList<Descritor> array = new ArrayList<Descritor>();
         lista.add(array);

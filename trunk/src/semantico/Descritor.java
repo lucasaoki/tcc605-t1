@@ -10,7 +10,7 @@ package semantico;
  */
 public class Descritor {
 
-    public Descritor(String ident,int nivel){
+    public Descritor(String ident, int nivel){
         this.ident = ident;
         this.nivel = nivel;
     }
