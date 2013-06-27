@@ -63,9 +63,14 @@ public class TabelaSimbolos implements Constantes {
             lista.remove(nivel);
         }
     }
-
+    
+    /**
+     * Busca ident na TS
+     * @param ident identificador a ser buscado na TS
+     * @return retorna o identificador
+     */
     Descritor busca(String ident) {
-
+        
         Iterator it = lista.iterator();
 
         while (it.hasNext()) {
@@ -123,6 +128,12 @@ public class TabelaSimbolos implements Constantes {
         }
 
         return false;
+    }
+    
+    void insere(Descritor desc, int nivel) {
+        if (!declarado(desc.getIdent(),desc.getNivel())) {
+            lista.get(nivelCorrent).add(desc);
+        }
     }
 
     /**
