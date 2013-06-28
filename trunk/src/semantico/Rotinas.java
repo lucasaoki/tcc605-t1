@@ -4,6 +4,9 @@
  */
 package semantico;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /*
  * @author Gustavo Luvizotto Cesar - 6783544 - gustavoluvizotto@gmail.com
  */
@@ -11,44 +14,127 @@ public class Rotinas {
 
     public Rotinas() {
         TS = new TabelaSimbolos();
+        this.nparam = 0;
+        this.st = new ArrayList<Integer>();
     }
 
     /**
-     * Rotina 0, 2, 3 e 4. Se declarado(TS,s,nivelcorr) então 
-     * erro(‘id já declarado’); senão insere(TS,s,ref);
-     * Atualiza os campos nível, categoria, tipo_v das variáveis na TS através 
-     * da rotina seta_atributos com: nivelcorr, variável, o endereço fornecido 
-     * pela rs(9);
+     * Rotina 0, 1, 3 e 4. Se declarado(TS,s,nivelcorr) então erro(‘id já
+     * declarado’); senão insere(TS,s,ref); Atualiza os campos nível, categoria,
+     * tipo_v das variáveis na TS através da rotina seta_atributos com:
+     * nivelcorr, variável, o endereço fornecido pela rs(9);
+     *
      * @param id identificador a ser verificado (s)
-     * @param nivelcorr nível a ser buscado
      */
-    public void verificaEInsereID(String id, int nivelcorr) {
-        Descritor desc = new Descritor(id, nivelcorr);
-        if (TS.declarado(id, nivelcorr)) {
+    public void verificaEInsereID(String id) {
+        if (TS.declarado(id, TS.getNivelCorrent())) {
             System.err.println("id já declarado");
         } else {
+            Descritor desc = new Descritor(id, TS.getNivelCorrent());
             desc.setCategoria("var");
-            desc.setEnder(this.rotinaNove(id, nivelcorr, "int"));
-            TS.insere(desc, nivelcorr);
+            desc.setEnder(this.rotinaNove(id, "int"));
+            TS.insere(desc);
         }
     }
 
     /**
-     * Rotina 9. busca(TS,s,ref,achou); Se não achou ou (achou e categoria <> tipo) 
-     * então erro(‘tipo não definido’) End_tipo:= ref
-     * @param id identificador 
+     * Rotina 9. busca(TS,s,ref,achou); Se não achou ou (achou e categoria <>
+     * tipo) então erro(‘tipo não definido’) End_tipo:= ref
+     *
+     * @param id identificador
      * @param nivelcorr nivel atual
-     * @param tipo 
-     * @return 
+     * @param tipo
+     * @return
      */
-    public String rotinaNove(String id, int nivelcorr, String tipo) {
+    public String rotinaNove(String id, String tipo) {
         Descritor achou = TS.busca(id); // essa busca tem que ser feita no nivelcorr
         if (achou == null || !achou.getCategoria().equals(tipo)) {
             System.err.println("tipo não definido");
         }
         return achou.getEnder();
     }
+
+    public void rotinaCinco(String id) {
+        if (TS.declarado(id, TS.getNivelCorrent())) {
+            System.err.println("id já declarado");
+        } else {
+            Descritor desc = new Descritor(id, TS.getNivelCorrent());
+            desc.setCategoria("proc");
+            desc.setNpar(0);
+            TS.insere(desc);
+            TS.addNivelCorrente();
+        }
+    }
+
+    public void rotina18(String id) {
+        if (TS.declarado(id, TS.getNivelCorrent())) {
+            System.err.println("id já declarado");
+        } else {
+            Descritor desc = new Descritor(id, TS.getNivelCorrent());
+            desc.setCategoria("param");
+            this.nparam++;
+            desc.setNpar(nparam);
+            desc.setEnder(this.rotinaNove(id, "int"));  // rotina 19
+            TS.insere(desc);
+        }
+    }
+
+    public void rotina20() {
+        this.nparam = 0;
+    }
+    
+    public void rotina8() {
+        this.nparam = 0;
+        TS.subNivelCorrente();
+    }
+
+    public int rotina26(String valor) {
+        return Integer.parseInt(valor);
+    }
+
+    public void rotina21(String id) {
+        Descritor desc = TS.busca(id);
+        if (desc == null) 
+            System.err.println("id nao foi declarado");
+        else {
+            if (desc.getIdent().equals("var") || desc.getCategoria().equals("param"))
+                System.err.println("variavel ou parametro nao definidos");
+        }
+    }
+    
+    public void rotina23(String id) {
+        this.nparam++;
+    }
+    
+    public void rotina24(String id) {
+        Descritor desc = TS.busca(id);
+        if (desc == null) 
+            System.err.println("id nao foi declarado");
+        else {
+            if (desc.getNpar() != this.nparam) 
+                System.err.println("incompatibilidade no numero de parametros");
+            this.nparam = 0;
+        }
+    }
+    
+    public void rotina27(int valor) {
+        if (this.st.contains(valor)) {
+            System.err.println("constante do switch ja declarada");
+        } else {
+            this.st.add(valor);
+        }
+    }
+    
+    public void rotina28() {
+        Iterator it = st.iterator();
+
+        while (it.hasNext()) {
+            st.remove(it);
+        }
+    }
     
     // ATRIBUTOS
     private TabelaSimbolos TS;
+    private int nparam;
+    private ArrayList<Integer> st;
 }
