@@ -102,7 +102,7 @@ public class Descritor {
         String comp = d.getIdent() + Integer.toString(d.nivel);
         String this_ = this.getIdent() + Integer.toString(this.nivel); 
     
-        return this_.equals(comp);
+        return (this_.compareTo(comp) == 0);
     }
 
     @Override

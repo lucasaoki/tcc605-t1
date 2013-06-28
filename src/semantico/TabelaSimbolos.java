@@ -37,10 +37,13 @@ public class TabelaSimbolos implements Constantes {
 
         Descritor readlong = new Descritor("readlong", nivelCorrent);
         readlong.setCategoria("proc");
+        readlong.setNpar(Integer.MAX_VALUE);
         Descritor writelong = new Descritor("writelong", nivelCorrent);
         writelong.setCategoria("proc");
+        writelong.setNpar(Integer.MAX_VALUE);
         Descritor writeline = new Descritor("writeline", nivelCorrent);
         writeline.setCategoria("proc");
+        writeline.setNpar(Integer.MAX_VALUE);
 //------------------------------------------------------------------------------
 
 //-------------- adicionando os 6 elementos na TS ------------------------------
@@ -68,6 +71,16 @@ public class TabelaSimbolos implements Constantes {
         return nivelCorrent;
     }
     
+    public int getPosition(String id) {
+        Iterator it = (lista.get(0)).iterator();
+        while (it.hasNext()) {
+            Descritor elem = (Descritor)it.next();
+            if (elem.getIdent().compareTo(id) == 0)
+                return (lista.get(0)).indexOf(it);
+        }
+        return -1;
+    }
+    
     /**
      * Busca ident na TS
      * @param ident identificador a ser buscado na TS
@@ -77,13 +90,14 @@ public class TabelaSimbolos implements Constantes {
         
         Iterator it = lista.iterator();
 
-        while (it.hasNext()) {
+        while ( it.hasNext() ) {
 
             ArrayList<Descritor> array = (ArrayList<Descritor>) it.next();
 
             Iterator elem = array.iterator();
 
             int nivel = lista.indexOf(array);
+            
             while (elem.hasNext()) {
 
                 Descritor comp = new Descritor(ident, nivel);

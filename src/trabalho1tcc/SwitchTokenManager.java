@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import semantico.*;
 
 /** Token Manager. */
 public class SwitchTokenManager implements SwitchConstants

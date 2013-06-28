@@ -32,7 +32,7 @@ public class Rotinas {
         } else {
             Descritor desc = new Descritor(id, TS.getNivelCorrent());
             desc.setCategoria("var");
-            desc.setEnder(this.rotinaNove(id, "int"));
+            desc.setEnder("int");
             TS.insere(desc);
         }
     }
@@ -46,15 +46,17 @@ public class Rotinas {
      * @param tipo
      * @return
      */
-    public String rotinaNove(String id, String tipo) {
-        Descritor achou = TS.busca(id); // essa busca tem que ser feita no nivelcorr
-        if (achou == null || !achou.getCategoria().equals(tipo)) {
+    public int rotina9(String id, String tipo) {
+        Descritor achou = TS.busca(id);
+        System.out.println(TS.getNivelCorrent());
+        if (achou == null || achou.getCategoria().compareTo(tipo) != 0) {
             System.err.println("tipo não definido");
+            return -1;
         }
-        return achou.getEnder();
+        return TS.getPosition(id);
     }
 
-    public void rotinaCinco(String id) {
+    public void rotina5(String id) {
         if (TS.declarado(id, TS.getNivelCorrent())) {
             System.err.println("id já declarado");
         } else {
@@ -74,7 +76,8 @@ public class Rotinas {
             desc.setCategoria("param");
             this.nparam++;
             desc.setNpar(nparam);
-            desc.setEnder(this.rotinaNove(id, "int"));  // rotina 19
+            System.out.println(id);
+            desc.setEnder(Integer.toString(this.rotina9("int", "tipo")));  // rotina 19
             TS.insere(desc);
         }
     }
@@ -82,7 +85,7 @@ public class Rotinas {
     public void rotina20() {
         this.nparam = 0;
     }
-    
+
     public void rotina8() {
         this.nparam = 0;
         TS.subNivelCorrente();
@@ -94,29 +97,41 @@ public class Rotinas {
 
     public void rotina21(String id) {
         Descritor desc = TS.busca(id);
-        if (desc == null) 
+        if (desc == null) {
             System.err.println("id nao foi declarado");
-        else {
-            if (desc.getIdent().equals("var") || desc.getCategoria().equals("param"))
-                System.err.println("variavel ou parametro nao definidos");
+        }
+    }
+
+    public void rotina25(String id){
+        Descritor desc = TS.busca(id);
+        if (desc.getIdent().compareTo("proc") == 0 ) {
+            System.err.println("procedimento nao definido");
         }
     }
     
-    public void rotina23(String id) {
+    public void rotina25_l(String id) {
+        Descritor desc = TS.busca(id);
+        if (desc.getIdent().compareTo("var") == 0 || desc.getCategoria().compareTo("param") == 0) {
+            System.err.println("variavel ou parametro nao definidos");
+        }
+    }
+
+    public void rotina23() {
         this.nparam++;
     }
-    
+
     public void rotina24(String id) {
         Descritor desc = TS.busca(id);
-        if (desc == null) 
+        if (desc == null) {
             System.err.println("id nao foi declarado");
-        else {
-            if (desc.getNpar() != this.nparam) 
+        } else {
+            if (desc.getNpar() != this.nparam) {
                 System.err.println("incompatibilidade no numero de parametros");
+            }
             this.nparam = 0;
         }
     }
-    
+
     public void rotina27(int valor) {
         if (this.st.contains(valor)) {
             System.err.println("constante do switch ja declarada");
@@ -124,7 +139,7 @@ public class Rotinas {
             this.st.add(valor);
         }
     }
-    
+
     public void rotina28() {
         Iterator it = st.iterator();
 
@@ -132,7 +147,6 @@ public class Rotinas {
             st.remove(it);
         }
     }
-    
     // ATRIBUTOS
     private TabelaSimbolos TS;
     private int nparam;
