@@ -38,9 +38,11 @@ public class TabelaSimbolos implements Constantes {
         Descritor readlong = new Descritor("readlong", nivelCorrent);
         readlong.setCategoria("proc");
         readlong.setNpar(Integer.MAX_VALUE);
+        
         Descritor writelong = new Descritor("writelong", nivelCorrent);
         writelong.setCategoria("proc");
         writelong.setNpar(Integer.MAX_VALUE);
+        
         Descritor writeline = new Descritor("writeline", nivelCorrent);
         writeline.setCategoria("proc");
         writeline.setNpar(Integer.MAX_VALUE);
@@ -70,41 +72,57 @@ public class TabelaSimbolos implements Constantes {
     public int getNivelCorrent() {
         return nivelCorrent;
     }
-    
+
     public int getPosition(String id) {
+
         Iterator it = (lista.get(0)).iterator();
+
         while (it.hasNext()) {
-            Descritor elem = (Descritor)it.next();
-            if (elem.getIdent().compareTo(id) == 0)
-                return (lista.get(0)).indexOf(it);
+            Object obj = it.next();
+
+            if (obj instanceof Descritor) {
+                Descritor elem = (Descritor) obj;
+                if (elem.getIdent().compareTo(id) == 0) {
+                    return (lista.get(0)).indexOf(elem);
+                }
+            }
         }
+
         return -1;
     }
-    
+
     /**
      * Busca ident na TS
+     *
      * @param ident identificador a ser buscado na TS
      * @return retorna o identificador
      */
     Descritor busca(String ident) {
-        
+
         Iterator it = lista.iterator();
 
-        while ( it.hasNext() ) {
+        while (it.hasNext()) {
+            Object obj = it.next();
+            if (obj instanceof ArrayList<?>) {
+//                ArrayList<Descritor> array = (ArrayList<Descritor>) it.next();
+                ArrayList<Descritor> array = (ArrayList<Descritor>) obj;
 
-            ArrayList<Descritor> array = (ArrayList<Descritor>) it.next();
+                Iterator elem = array.iterator();
 
-            Iterator elem = array.iterator();
+                int nivel = lista.indexOf(array);
 
-            int nivel = lista.indexOf(array);
-            
-            while (elem.hasNext()) {
+                while (elem.hasNext()) {
+                    Object obj2 = elem.next();
 
-                Descritor comp = new Descritor(ident, nivel);
-                Descritor des = (Descritor) elem.next();
+                    if (obj2 instanceof Descritor) {
+                        Descritor comp = new Descritor(ident, nivel);
+//                    Descritor des = (Descritor) elem.next();
+                        Descritor des = (Descritor) obj2;
 
-                if (comp.equals(des)) {
-                    return des;
+                        if (comp.equals(des)) {
+                            return des;
+                        }
+                    }
                 }
             }
         }
@@ -124,11 +142,16 @@ public class TabelaSimbolos implements Constantes {
             Iterator it = array.iterator();
 
             while (it.hasNext()) {
-                Descritor comp = new Descritor(ident, nivel);
-                Descritor des = (Descritor) it.next();
+                Object obj2 = it.next();
 
-                if (comp.equals(des)) {
-                    return true;
+                if (obj2 instanceof Descritor) {
+                    Descritor comp = new Descritor(ident, nivel);
+//                    Descritor des = (Descritor) it.next();
+                    Descritor des = (Descritor) obj2;
+
+                    if (comp.equals(des)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -147,9 +170,9 @@ public class TabelaSimbolos implements Constantes {
 
         return false;
     }
-    
+
     void insere(Descritor desc) {
-        if (!declarado(desc.getIdent(),desc.getNivel())) {
+        if (!declarado(desc.getIdent(), desc.getNivel())) {
             lista.get(nivelCorrent).add(desc);
         }
     }
@@ -177,21 +200,30 @@ public class TabelaSimbolos implements Constantes {
 
         while (it.hasNext()) {
 
-            ArrayList<Descritor> array = (ArrayList<Descritor>) it.next();
+            Object obj = it.next();
+            if (obj instanceof ArrayList<?>) {
+//                ArrayList<Descritor> array = (ArrayList<Descritor>) it.next();
+                ArrayList<Descritor> array = (ArrayList<Descritor>) obj;
 
-            Iterator elem = array.iterator();
-            int nivel = lista.indexOf(array);
+                Iterator elem = array.iterator();
+                int nivel = lista.indexOf(array);
 
-            str += nivel + "\n";
-            while (elem.hasNext()) {
-                Descritor des = (Descritor) elem.next();
-                str += des.toString();
+                str += nivel + "\n";
+                while (elem.hasNext()) {
+                    Object obj2 = elem.next();
+
+                    if (obj2 instanceof Descritor) {
+//                    Descritor des = (Descritor) elem.next();
+                        Descritor des = (Descritor) obj2;
+                        str += des.toString();
+                    }
+                }
             }
         }
         return str;
     }
-        
-    private ArrayList< ArrayList<Descritor>> lista;
+    
+    private ArrayList< ArrayList<Descritor> > lista;
     private int nivelCorrent;
 
     /*
