@@ -97,6 +97,9 @@ public class Switch {
                 System.exit(-1);
         }
 
+        
+        System.out.println("");
+        System.out.println(rot.toString());
         System.out.println("SUCESSO");
 
     }
@@ -897,7 +900,7 @@ TOKEN : { < SEMICOL : ";" > }
         } 
         ( 
             Comma() ExpList()
-        )
+        )?
         
     }
 

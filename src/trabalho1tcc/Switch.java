@@ -35,17 +35,17 @@ public class Switch implements SwitchConstants {
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
 
-        if( args.length < 1){
+        if( args.length > 1){
 
             System.out.println("Voc\u00ea n\u00e3o passou argumentos para o programa");
             System.out.println("Voc\u00ea possui duas escolhas: ");
             System.out.println("1 - L\u00e9xico");
-            System.out.println("2 - L\u00e9xico com Sint\u00e1tico");
+            System.out.println("2 - L\u00e9xico com Sint\u00e1tico Semantico");
 
             System.exit(-1);
         }
-        //int opcao = Integer.parseInt(args[0]);
-        int opcao = 2;
+        int opcao = Integer.parseInt(args[0]);
+//        int opcao = 2;
 
         try {
             switch( opcao ){
@@ -69,6 +69,9 @@ public class Switch implements SwitchConstants {
                 System.exit(-1);
         }
 
+
+        System.out.println("");
+        System.out.println(rot.toString());
         System.out.println("SUCESSO");
 
     }
@@ -769,8 +772,15 @@ public class Switch implements SwitchConstants {
   static final public void ExpList() throws ParseException {
     Expression();
             rot.rotina23();
-    Comma();
-    ExpList();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case COMMA:
+      Comma();
+      ExpList();
+      break;
+    default:
+      jj_la1[19] = jj_gen;
+      ;
+    }
   }
 
   static final public void Assignment(String ident) throws ParseException {
@@ -801,7 +811,7 @@ public class Switch implements SwitchConstants {
                 {if (true) return 0;}
       break;
     default:
-      jj_la1[19] = jj_gen;
+      jj_la1[20] = jj_gen;
       ;
     }
             {if (true) return valor1;}
@@ -818,7 +828,7 @@ public class Switch implements SwitchConstants {
         ;
         break;
       default:
-        jj_la1[20] = jj_gen;
+        jj_la1[21] = jj_gen;
         break label_8;
       }
       And();
@@ -848,7 +858,7 @@ public class Switch implements SwitchConstants {
                     operador = 2;
         break;
       default:
-        jj_la1[21] = jj_gen;
+        jj_la1[22] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -867,7 +877,7 @@ public class Switch implements SwitchConstants {
                 }
       break;
     default:
-      jj_la1[22] = jj_gen;
+      jj_la1[23] = jj_gen;
       ;
     }
             {if (true) return valor1;}
@@ -900,7 +910,7 @@ public class Switch implements SwitchConstants {
                    operador = 4;
         break;
       default:
-        jj_la1[23] = jj_gen;
+        jj_la1[24] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -929,7 +939,7 @@ public class Switch implements SwitchConstants {
                 }
       break;
     default:
-      jj_la1[24] = jj_gen;
+      jj_la1[25] = jj_gen;
       ;
     }
             {if (true) return valor1;}
@@ -943,7 +953,7 @@ public class Switch implements SwitchConstants {
       Plus();
       break;
     default:
-      jj_la1[25] = jj_gen;
+      jj_la1[26] = jj_gen;
       ;
     }
     valor1 = ConstantTerm();
@@ -955,7 +965,7 @@ public class Switch implements SwitchConstants {
         ;
         break;
       default:
-        jj_la1[26] = jj_gen;
+        jj_la1[27] = jj_gen;
         break label_9;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -968,7 +978,7 @@ public class Switch implements SwitchConstants {
                     operador = 2;
         break;
       default:
-        jj_la1[27] = jj_gen;
+        jj_la1[28] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -997,7 +1007,7 @@ public class Switch implements SwitchConstants {
         ;
         break;
       default:
-        jj_la1[28] = jj_gen;
+        jj_la1[29] = jj_gen;
         break label_10;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1014,7 +1024,7 @@ public class Switch implements SwitchConstants {
                     operador = 3;
         break;
       default:
-        jj_la1[29] = jj_gen;
+        jj_la1[30] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1047,7 +1057,7 @@ public class Switch implements SwitchConstants {
             {if (true) return valor;}
       break;
     default:
-      jj_la1[30] = jj_gen;
+      jj_la1[31] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1068,7 +1078,7 @@ public class Switch implements SwitchConstants {
       Cpar();
       break;
     default:
-      jj_la1[31] = jj_gen;
+      jj_la1[32] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1088,7 +1098,7 @@ public class Switch implements SwitchConstants {
         ;
         break;
       default:
-        jj_la1[32] = jj_gen;
+        jj_la1[33] = jj_gen;
         break label_11;
       }
       Or();
@@ -1109,14 +1119,14 @@ public class Switch implements SwitchConstants {
         Nequ();
         break;
       default:
-        jj_la1[33] = jj_gen;
+        jj_la1[34] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       InequationExpr();
       break;
     default:
-      jj_la1[34] = jj_gen;
+      jj_la1[35] = jj_gen;
       ;
     }
   }
@@ -1130,7 +1140,7 @@ public class Switch implements SwitchConstants {
         ;
         break;
       default:
-        jj_la1[35] = jj_gen;
+        jj_la1[36] = jj_gen;
         break label_12;
       }
       And();
@@ -1159,14 +1169,14 @@ public class Switch implements SwitchConstants {
         Gequ();
         break;
       default:
-        jj_la1[36] = jj_gen;
+        jj_la1[37] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       SimpleExpr();
       break;
     default:
-      jj_la1[37] = jj_gen;
+      jj_la1[38] = jj_gen;
       ;
     }
   }
@@ -1177,7 +1187,7 @@ public class Switch implements SwitchConstants {
       Plus();
       break;
     default:
-      jj_la1[38] = jj_gen;
+      jj_la1[39] = jj_gen;
       ;
     }
     Term();
@@ -1189,7 +1199,7 @@ public class Switch implements SwitchConstants {
         ;
         break;
       default:
-        jj_la1[39] = jj_gen;
+        jj_la1[40] = jj_gen;
         break label_13;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1200,7 +1210,7 @@ public class Switch implements SwitchConstants {
         Minus();
         break;
       default:
-        jj_la1[40] = jj_gen;
+        jj_la1[41] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1219,7 +1229,7 @@ public class Switch implements SwitchConstants {
         ;
         break;
       default:
-        jj_la1[41] = jj_gen;
+        jj_la1[42] = jj_gen;
         break label_14;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1233,7 +1243,7 @@ public class Switch implements SwitchConstants {
         Percent();
         break;
       default:
-        jj_la1[42] = jj_gen;
+        jj_la1[43] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1254,7 +1264,7 @@ public class Switch implements SwitchConstants {
       Factor();
       break;
     default:
-      jj_la1[43] = jj_gen;
+      jj_la1[44] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1265,7 +1275,6 @@ public class Switch implements SwitchConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENT:
       ident = Ident();
-            System.out.println("teste");
             rot.rotina21(ident);
             rot.rotina25_l(ident);
       break;
@@ -1278,7 +1287,7 @@ public class Switch implements SwitchConstants {
       Cpar();
       break;
     default:
-      jj_la1[44] = jj_gen;
+      jj_la1[45] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1293,7 +1302,7 @@ public class Switch implements SwitchConstants {
       Minus();
       break;
     default:
-      jj_la1[45] = jj_gen;
+      jj_la1[46] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -1309,7 +1318,7 @@ public class Switch implements SwitchConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[46];
+  static final private int[] jj_la1 = new int[47];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -1317,10 +1326,10 @@ public class Switch implements SwitchConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xffaffc00,0xffaffc00,0x40000,0x80000,0x40000,0x40000,0x0,0x0,0x0,0x202c00,0x20000,0x20000000,0x0,0x202c00,0x2800,0x4000,0x10000,0x1000,0x23a00000,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x3000000,0x3000000,0x1c000000,0x1c000000,0x22800000,0x20800000,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x3000000,0x3000000,0x1c000000,0x1c000000,0x22a00000,0x20a00000,0x2000000,};
+      jj_la1_0 = new int[] {0xffaffc00,0xffaffc00,0x40000,0x80000,0x40000,0x40000,0x0,0x0,0x0,0x202c00,0x20000,0x20000000,0x0,0x202c00,0x2800,0x4000,0x10000,0x1000,0x23a00000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x3000000,0x3000000,0x1c000000,0x1c000000,0x22800000,0x20800000,0x0,0x0,0x0,0x0,0x0,0x0,0x1000000,0x3000000,0x3000000,0x1c000000,0x1c000000,0x22a00000,0x20a00000,0x2000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x1fff,0x1fff,0x0,0x0,0x0,0x0,0x800,0x400,0x800,0x0,0x0,0x400,0x1000,0x0,0x0,0x0,0x0,0x0,0x80,0x200,0x100,0x42,0x42,0x3c,0x3c,0x0,0x0,0x0,0x0,0x0,0x80,0x0,0x200,0x42,0x42,0x100,0x3c,0x3c,0x0,0x0,0x0,0x0,0x0,0x80,0x0,0x80,};
+      jj_la1_1 = new int[] {0x1fff,0x1fff,0x0,0x0,0x0,0x0,0x800,0x400,0x800,0x0,0x0,0x400,0x1000,0x0,0x0,0x0,0x0,0x0,0x80,0x800,0x200,0x100,0x42,0x42,0x3c,0x3c,0x0,0x0,0x0,0x0,0x0,0x80,0x0,0x200,0x42,0x42,0x100,0x3c,0x3c,0x0,0x0,0x0,0x0,0x0,0x80,0x0,0x80,};
    }
 
   /** Constructor with InputStream. */
@@ -1341,7 +1350,7 @@ public class Switch implements SwitchConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 46; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1355,7 +1364,7 @@ public class Switch implements SwitchConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 46; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -1372,7 +1381,7 @@ public class Switch implements SwitchConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 46; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1382,7 +1391,7 @@ public class Switch implements SwitchConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 46; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -1398,7 +1407,7 @@ public class Switch implements SwitchConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 46; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1407,7 +1416,7 @@ public class Switch implements SwitchConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 46; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 47; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -1463,7 +1472,7 @@ public class Switch implements SwitchConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 46; i++) {
+    for (int i = 0; i < 47; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
