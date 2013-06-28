@@ -35,7 +35,7 @@ public class Switch implements SwitchConstants {
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
 
-        if( args.length > 5555){
+        if( args.length < 1){
 
             System.out.println("Voc\u00ea n\u00e3o passou argumentos para o programa");
             System.out.println("Voc\u00ea possui duas escolhas: ");
