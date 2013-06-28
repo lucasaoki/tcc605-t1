@@ -10,7 +10,7 @@ import java.util.Iterator;
 /*
  * @author Gustavo Luvizotto Cesar - 6783544 - gustavoluvizotto@gmail.com
  */
-public class Rotinas {
+public class Rotinas implements Constantes{
 
     public Rotinas() {
         TS = new TabelaSimbolos();
@@ -31,8 +31,8 @@ public class Rotinas {
             System.err.println("id já declarado");
         } else {
             Descritor desc = new Descritor(id, TS.getNivelCorrent());
-            desc.setCategoria("var");
-            desc.setEnder("int");
+            desc.setCategoria(VAR);
+            desc.setEnder(INT);
             TS.insere(desc);
         }
     }
@@ -62,7 +62,7 @@ public class Rotinas {
         } else {
 
             Descritor desc = new Descritor(id, TS.getNivelCorrent());
-            desc.setCategoria("proc");
+            desc.setCategoria(PROC);
             desc.setNpar(0);
             funcaoCorrente = desc;
 
@@ -77,11 +77,11 @@ public class Rotinas {
         } else {
 
             Descritor desc = new Descritor(id, TS.getNivelCorrent());
-            desc.setCategoria("param");
+            desc.setCategoria(PARAM);
             this.nparam++;
             funcaoCorrente.setNpar(nparam);
 
-            desc.setEnder(Integer.toString(this.rotina9("int", "tipo")));  // rotina 19
+            desc.setEnder(Integer.toString(this.rotina9(INT, TYPE)));  // rotina 19
             TS.insere(desc);
         }
     }
@@ -109,7 +109,7 @@ public class Rotinas {
 
     public void rotina25(String id) {
         Descritor desc = TS.busca(id);
-        if (desc == null || desc.getCategoria().compareTo("proc") != 0) {
+        if (desc == null || desc.getCategoria().compareTo(PROC) != 0) {
             System.err.println("procedimento nao definido");
         }
     }
@@ -118,10 +118,10 @@ public class Rotinas {
         Descritor desc = TS.busca(id);
 
         if (desc != null) {
-            if (desc.getCategoria().compareTo("var") == 0) {
+            if (desc.getCategoria().compareTo(VAR) == 0) {
                 return;
             }
-            if (desc.getCategoria().compareTo("param") == 0) {
+            if (desc.getCategoria().compareTo(PARAM) == 0) {
                 return;
             }
         }
@@ -141,7 +141,7 @@ public class Rotinas {
             System.err.println("id nao foi declarado");
         } else {
             int param = desc.getNpar();
-            if ( param != Integer.MAX_VALUE && param != this.nparam) {
+            if ( param != -1 && param != this.nparam) {
                 System.err.println("incompatibilidade no numero de parametros");
             }
             this.nparam = 0;

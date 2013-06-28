@@ -23,7 +23,7 @@ public class TabelaSimbolos implements Constantes {
 //-------- 6 primeiros elementos da tabela que são pré-definidos ---------------
         Descritor inteiro = new Descritor("int", nivelCorrent);
         inteiro.setNbytes(BYTES_INT);
-        inteiro.setCategoria("tipo");
+        inteiro.setCategoria(TYPE);
 
         Descritor boolean_t = new Descritor("TRUE", nivelCorrent);
         boolean_t.setValor(1);
@@ -36,16 +36,16 @@ public class TabelaSimbolos implements Constantes {
         boolean_f.setCategoria(CONSTANTE);
 
         Descritor readlong = new Descritor("readlong", nivelCorrent);
-        readlong.setCategoria("proc");
-        readlong.setNpar(Integer.MAX_VALUE);
+        readlong.setCategoria(PROC);
+        readlong.setNpar(-1);
         
         Descritor writelong = new Descritor("writelong", nivelCorrent);
-        writelong.setCategoria("proc");
-        writelong.setNpar(Integer.MAX_VALUE);
+        writelong.setCategoria(PROC);
+        writelong.setNpar(-1);
         
         Descritor writeline = new Descritor("writeline", nivelCorrent);
-        writeline.setCategoria("proc");
-        writeline.setNpar(Integer.MAX_VALUE);
+        writeline.setCategoria(PROC);
+        writeline.setNpar(-1);
 //------------------------------------------------------------------------------
 
 //-------------- adicionando os 6 elementos na TS ------------------------------
