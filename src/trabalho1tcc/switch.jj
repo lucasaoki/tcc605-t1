@@ -39,8 +39,9 @@ public class Switch {
     public static Set<String>  procedureInformation = new TreeSet<String>();
     public static Set<String>  variableDeclarationInformation = 
                                 new TreeSet<String>();
-
-    
+                                
+    private static TabelaSimbolos ts;
+   
     public static void SaveLexicalInformation(Token t,String Vn){
         
         String string = ( "@(" + t.beginLine + "," + t.beginColumn + ")\t"
@@ -62,17 +63,17 @@ public class Switch {
     public static void main(String args[]) {
         Switch parser = new Switch(System.in);
      
-        if( args.length > 5555){
+        if( args.length > 1){
 
             System.out.println("Você não passou argumentos para o programa");
             System.out.println("Você possui duas escolhas: ");
             System.out.println("1 - Léxico");
-            System.out.println("2 - Léxico com Sintático");
+            System.out.println("2 - Léxico com Sintático Semantico");
 
             System.exit(-1);
         }
-        //int opcao = Integer.parseInt(args[0]);
-        int opcao = 2;
+        int opcao = Integer.parseInt(args[0]);
+        //int opcao = 2;
 
         try {
             switch( opcao ){
@@ -643,7 +644,6 @@ TOKEN : { < SEMICOL : ";" > }
         }
     }
     
-    
     void Assign() :
     {
         Token t_assign;
@@ -667,6 +667,10 @@ TOKEN : { < SEMICOL : ";" > }
     }
 
     //Fim Tokens - Análises
+
+    // Precisamos montar as construções do compilador
+    // a partir daqui
+    // #INICIO | #inicio
 
     void Program() :
     {        

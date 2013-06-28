@@ -48,7 +48,7 @@ public class Rotinas {
      */
     public int rotina9(String id, String tipo) {
         Descritor achou = TS.busca(id);
-        System.out.println(TS.getNivelCorrent());
+//        System.out.println(TS.getNivelCorrent());
         if (achou == null || achou.getCategoria().compareTo(tipo) != 0) {
             System.err.println("tipo não definido");
             return -1;
@@ -76,7 +76,7 @@ public class Rotinas {
             desc.setCategoria("param");
             this.nparam++;
             desc.setNpar(nparam);
-            System.out.println(id);
+            //System.out.println(id);
             desc.setEnder(Integer.toString(this.rotina9("int", "tipo")));  // rotina 19
             TS.insere(desc);
         }

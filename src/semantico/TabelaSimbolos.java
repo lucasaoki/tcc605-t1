@@ -190,6 +190,7 @@ public class TabelaSimbolos implements Constantes {
         }
         return str;
     }
+        
     private ArrayList< ArrayList<Descritor>> lista;
     private int nivelCorrent;
 
