@@ -1140,7 +1140,11 @@ TOKEN : { < SEMICOL : ";" > }
         int valor;
     }
     {
-        UnaryOperator() ConstantUnary() 
+        UnaryOperator() 
+        valor = ConstantUnary()
+        {
+            return valor;
+        }
         | 
         valor = ConstantFactor() 
         {
@@ -1158,7 +1162,12 @@ TOKEN : { < SEMICOL : ";" > }
             return valor;
         }
         |
-        Opar() ConstantExpression() Cpar()
+        Opar() 
+        valor = ConstantExpression() 
+        {
+            return valor;
+        }
+        Cpar()
         
     }
 

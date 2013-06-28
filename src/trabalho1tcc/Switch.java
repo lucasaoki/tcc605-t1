@@ -1033,7 +1033,8 @@ public class Switch implements SwitchConstants {
     case MINUS:
     case NOT:
       UnaryOperator();
-      ConstantUnary();
+      valor = ConstantUnary();
+            {if (true) return valor;}
       break;
     case NUMBER:
     case OPAR:
@@ -1057,7 +1058,8 @@ public class Switch implements SwitchConstants {
       break;
     case OPAR:
       Opar();
-      ConstantExpression();
+      valor = ConstantExpression();
+            {if (true) return valor;}
       Cpar();
       break;
     default:
@@ -1258,6 +1260,7 @@ public class Switch implements SwitchConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENT:
       ident = Ident();
+            System.out.println("teste");
             rot.rotina21(ident);
             rot.rotina25_l(ident);
       break;
