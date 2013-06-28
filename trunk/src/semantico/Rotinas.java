@@ -104,14 +104,14 @@ public class Rotinas {
 
     public void rotina25(String id){
         Descritor desc = TS.busca(id);
-        if (desc.getIdent().compareTo("proc") == 0 ) {
+        if (desc == null || desc.getCategoria().compareTo("proc") != 0 ) {
             System.err.println("procedimento nao definido");
         }
     }
     
     public void rotina25_l(String id) {
         Descritor desc = TS.busca(id);
-        if (desc.getIdent().compareTo("var") == 0 || desc.getCategoria().compareTo("param") == 0) {
+        if (desc == null || desc.getCategoria().compareTo("var") != 0 || desc.getCategoria().compareTo("param") != 0) {
             System.err.println("variavel ou parametro nao definidos");
         }
     }
