@@ -12,6 +12,7 @@ public class Switch implements SwitchConstants {
     public static Set<String>  variableDeclarationInformation =
                                 new TreeSet<String>();
 
+    private static TabelaSimbolos ts;
 
     public static void SaveLexicalInformation(Token t,String Vn){
 
@@ -459,6 +460,10 @@ public class Switch implements SwitchConstants {
   }
 
     //Fim Tokens - Análises
+
+    // Precisamos montar as construções do compilador
+    // a partir daqui
+    // #INICIO | #inicio
   static final public void Program() throws ParseException {
     label_2:
     while (true) {
