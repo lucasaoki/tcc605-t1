@@ -63,6 +63,10 @@ public class TabelaSimbolos implements Constantes {
             lista.remove(nivel);
         }
     }
+
+    public int getNivelCorrent() {
+        return nivelCorrent;
+    }
     
     /**
      * Busca ident na TS
@@ -130,7 +134,7 @@ public class TabelaSimbolos implements Constantes {
         return false;
     }
     
-    void insere(Descritor desc, int nivel) {
+    void insere(Descritor desc) {
         if (!declarado(desc.getIdent(),desc.getNivel())) {
             lista.get(nivelCorrent).add(desc);
         }
