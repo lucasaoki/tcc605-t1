@@ -45,7 +45,7 @@ public class Switch implements SwitchConstants {
             System.exit(-1);
         }
         int opcao = Integer.parseInt(args[0]);
-//        int opcao = 2;
+        //int opcao = 2;
 
         try {
             switch( opcao ){
