@@ -38,11 +38,11 @@ public class TabelaSimbolos implements Constantes {
         Descritor readlong = new Descritor("readlong", nivelCorrent);
         readlong.setCategoria(PROC);
         readlong.setNpar(-1);
-        
+
         Descritor writelong = new Descritor("writelong", nivelCorrent);
         writelong.setCategoria(PROC);
         writelong.setNpar(-1);
-        
+
         Descritor writeline = new Descritor("writeline", nivelCorrent);
         writeline.setCategoria(PROC);
         writeline.setNpar(-1);
@@ -99,29 +99,22 @@ public class TabelaSimbolos implements Constantes {
      */
     Descritor busca(String ident) {
 
-        Iterator it = lista.iterator();
+        for (ArrayList<Descritor> array : lista) {
 
-        while (it.hasNext()) {
-            Object obj = it.next();
-            if (obj instanceof ArrayList<?>) {
-//                ArrayList<Descritor> array = (ArrayList<Descritor>) it.next();
-                ArrayList<Descritor> array = (ArrayList<Descritor>) obj;
+            Iterator elem = array.iterator();
 
-                Iterator elem = array.iterator();
+            int nivel = lista.indexOf(array);
 
-                int nivel = lista.indexOf(array);
+            while (elem.hasNext()) {
+                Object obj2 = elem.next();
 
-                while (elem.hasNext()) {
-                    Object obj2 = elem.next();
-
-                    if (obj2 instanceof Descritor) {
-                        Descritor comp = new Descritor(ident, nivel);
+                if (obj2 instanceof Descritor) {
+                    Descritor comp = new Descritor(ident, nivel);
 //                    Descritor des = (Descritor) elem.next();
-                        Descritor des = (Descritor) obj2;
+                    Descritor des = (Descritor) obj2;
 
-                        if (comp.equals(des)) {
-                            return des;
-                        }
+                    if (comp.equals(des)) {
+                        return des;
                     }
                 }
             }
@@ -196,34 +189,26 @@ public class TabelaSimbolos implements Constantes {
     @Override
     public String toString() {
         String str = "";
-        Iterator it = lista.iterator();
 
-        while (it.hasNext()) {
+        for (ArrayList<Descritor> array : lista) {
 
-            Object obj = it.next();
-            if (obj instanceof ArrayList<?>) {
-//                ArrayList<Descritor> array = (ArrayList<Descritor>) it.next();
-                ArrayList<Descritor> array = (ArrayList<Descritor>) obj;
+            Iterator elem = array.iterator();
+            int nivel = lista.indexOf(array);
 
-                Iterator elem = array.iterator();
-                int nivel = lista.indexOf(array);
+            str += nivel + "\n";
+            while (elem.hasNext()) {
+                Object obj = elem.next();
 
-                str += nivel + "\n";
-                while (elem.hasNext()) {
-                    Object obj2 = elem.next();
-
-                    if (obj2 instanceof Descritor) {
+                if (obj instanceof Descritor) {
 //                    Descritor des = (Descritor) elem.next();
-                        Descritor des = (Descritor) obj2;
-                        str += des.toString();
-                    }
+                    Descritor des = (Descritor) obj;
+                    str += des.toString();
                 }
             }
         }
         return str;
     }
-    
-    private ArrayList< ArrayList<Descritor> > lista;
+    private ArrayList< ArrayList<Descritor>> lista;
     private int nivelCorrent;
 
     /*
@@ -233,22 +218,22 @@ public class TabelaSimbolos implements Constantes {
 
         TabelaSimbolos ts = new TabelaSimbolos();
 
-        System.out.println(ts);
-
-        ts.addNivelCorrente();
-
-        String jaca = "jaca";
-
-        ts.insere(jaca);
-
-        System.out.println(ts);
-
-        ts.elimina(1);
-
-        System.out.println(ts);
-
-        Descritor des = ts.busca("int");
-
-        System.out.println(des);
+//        System.out.println(ts);
+//
+//        ts.addNivelCorrente();
+//
+//        String jaca = "jaca";
+//
+//        ts.insere(jaca);
+//
+//        System.out.println(ts);
+//
+//        ts.elimina(1);
+//
+//        System.out.println(ts);
+//
+//        Descritor des = ts.busca("int");
+//
+//        System.out.println(des);
     }
 }
