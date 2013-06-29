@@ -28,7 +28,7 @@ public class Rotinas implements Constantes{
      */
     public void verificaEInsereID(String id) {
         if (TS.declarado(id, TS.getNivelCorrent())) {
-            System.err.println("id já declarado");
+            System.out.println("id já declarado");
         } else {
             Descritor desc = new Descritor(id, TS.getNivelCorrent());
             desc.setCategoria(VAR);
@@ -50,7 +50,7 @@ public class Rotinas implements Constantes{
         Descritor achou = TS.busca(id);
 //        System.out.println(TS.getNivelCorrent());
         if (achou == null || achou.getCategoria().compareTo(tipo) != 0) {
-            System.err.println("tipo não definido");
+            System.out.println("tipo não definido");
             return -1;
         }
         return TS.getPosition(id);
@@ -58,7 +58,7 @@ public class Rotinas implements Constantes{
 
     public void rotina5(String id) {
         if (TS.declarado(id, TS.getNivelCorrent())) {
-            System.err.println("id já declarado");
+            System.out.println("id já declarado");
         } else {
 
             Descritor desc = new Descritor(id, TS.getNivelCorrent());
@@ -73,7 +73,7 @@ public class Rotinas implements Constantes{
 
     public void rotina18(String id) {
         if (TS.declarado(id, TS.getNivelCorrent())) {
-            System.err.println("id já declarado");
+            System.out.println("id já declarado");
         } else {
 
             Descritor desc = new Descritor(id, TS.getNivelCorrent());
@@ -103,14 +103,14 @@ public class Rotinas implements Constantes{
     public void rotina21(String id) {
         Descritor desc = TS.busca(id);
         if (desc == null) {
-            System.err.println(id + " " + "id nao foi declarado");
+            System.out.println(id + " " + "id nao foi declarado");
         }
     }
 
     public void rotina25(String id) {
         Descritor desc = TS.busca(id);
         if (desc == null || desc.getCategoria().compareTo(PROC) != 0) {
-            System.err.println("procedimento nao definido");
+            System.out.println("procedimento nao definido");
         }
     }
 
@@ -126,7 +126,7 @@ public class Rotinas implements Constantes{
             }
         }
 
-        System.err.println(((desc != null) ? desc.getIdent() : "")
+        System.out.println(((desc != null) ? desc.getIdent() : "")
                 + " " + "variavel ou parametro nao definidos ");
 
     }
@@ -138,11 +138,11 @@ public class Rotinas implements Constantes{
     public void rotina24(String id) {
         Descritor desc = TS.busca(id);
         if (desc == null) {
-            System.err.println("id nao foi declarado");
+            System.out.println("id nao foi declarado");
         } else {
             int param = desc.getNpar();
             if ( param != -1 && param != this.nparam) {
-                System.err.println("incompatibilidade no numero de parametros");
+                System.out.println("incompatibilidade no numero de parametros");
             }
             this.nparam = 0;
         }
@@ -150,7 +150,7 @@ public class Rotinas implements Constantes{
 
     public void rotina27(int valor) {
         if (this.st.contains(valor)) {
-            System.err.println(valor + " constante do switch ja declarada");
+            System.out.println(valor + " constante do switch ja declarada");
         } else {
             this.st.add(valor);
         }
