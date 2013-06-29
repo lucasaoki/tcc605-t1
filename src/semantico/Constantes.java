@@ -9,7 +9,7 @@ package semantico;
  * @author gilvolpe
  */
 public interface Constantes {
-    public static final int BYTES_INT = 4;
+    public static final int BYTES_INT = Integer.SIZE;
     public static final String CONSTANTE = "const"; 
     public static final String VAR = "var";
     public static final String TYPE = "tipo";
