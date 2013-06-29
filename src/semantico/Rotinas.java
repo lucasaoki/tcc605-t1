@@ -10,7 +10,7 @@ import java.util.Iterator;
 /*
  * @author Gustavo Luvizotto Cesar - 6783544 - gustavoluvizotto@gmail.com
  */
-public class Rotinas implements Constantes{
+public class Rotinas implements Constantes {
 
     public Rotinas() {
         TS = new TabelaSimbolos();
@@ -137,11 +137,9 @@ public class Rotinas implements Constantes{
 
     public void rotina24(String id) {
         Descritor desc = TS.busca(id);
-        if (desc == null) {
-            System.out.println("id nao foi declarado");
-        } else {
+        if (desc != null) {
             int param = desc.getNpar();
-            if ( param != -1 && param != this.nparam) {
+            if (param != -1 && param != this.nparam) {
                 System.out.println("incompatibilidade no numero de parametros");
             }
             this.nparam = 0;
@@ -160,11 +158,11 @@ public class Rotinas implements Constantes{
         Iterator it = st.iterator();
 
         while (it.hasNext()) {
-            
+
             Object obj = it.next();
-            
+
             if (obj instanceof Integer) {
-                  it.remove();
+                it.remove();
             }
         }
     }
